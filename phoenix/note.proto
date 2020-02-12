@@ -13,7 +13,7 @@ enum InputOutput {
   OUTPUT = 1;
 }
 
-message Idx { uint64 pos = 1; }
+message Idx { fixed64 pos = 1; }
 
 message Nullifier { Scalar h = 1; }
 
@@ -27,7 +27,7 @@ message Note {
   CompressedPoint commitment = 7;
   bytes encrypted_blinding_factor = 8;
   oneof value {
-    uint64 transparent_value = 9;
+    fixed64 transparent_value = 9;
     bytes encrypted_value = 10;
   }
 }
@@ -35,7 +35,7 @@ message Note {
 message DecryptedNote {
   NoteType note_type = 1;
   Idx pos = 2;
-  uint64 value = 3;
+  fixed64 value = 3;
   InputOutput io = 4;
   Nonce nonce = 5;
   CompressedPoint r_g = 6;

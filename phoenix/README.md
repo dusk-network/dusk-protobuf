@@ -100,7 +100,7 @@
 | ----- | ---- | ----- | ----------- |
 | note_type | [NoteType](#phoenix.NoteType) |  |  |
 | pos | [Idx](#phoenix.Idx) |  |  |
-| value | [uint64](#uint64) |  |  |
+| value | [fixed64](#fixed64) |  |  |
 | io | [InputOutput](#phoenix.InputOutput) |  |  |
 | nonce | [Nonce](#phoenix.Nonce) |  |  |
 | r_g | [CompressedPoint](#phoenix.CompressedPoint) |  |  |
@@ -112,7 +112,7 @@
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| pos | [uint64](#uint64) |  |  |
+| pos | [fixed64](#fixed64) |  |  |
 
 ### Note
 
@@ -126,7 +126,7 @@
 | pk_r | [CompressedPoint](#phoenix.CompressedPoint) |  |  |
 | commitment | [CompressedPoint](#phoenix.CompressedPoint) |  |  |
 | encrypted_blinding_factor | [bytes](#bytes) |  |  |
-| transparent_value | [uint64](#uint64) |  |  |
+| transparent_value | [fixed64](#fixed64) |  |  |
 | encrypted_value | [bytes](#bytes) |  |  |
 
 ### Nullifier
@@ -190,7 +190,7 @@
 | ----- | ---- | ----- | ----------- |
 | note_type | [NoteType](#phoenix.NoteType) |  |  |
 | pk | [PublicKey](#phoenix.PublicKey) |  |  |
-| value | [uint64](#uint64) |  |  |
+| value | [fixed64](#fixed64) |  |  |
 
 ### NewTransactionRequest
 
@@ -198,7 +198,7 @@
 | ----- | ---- | ----- | ----------- |
 | inputs | [TransactionInput](#phoenix.TransactionInput) | repeated |  |
 | outputs | [TransactionOutput](#phoenix.TransactionOutput) | repeated |  |
-| fee | [uint64](#uint64) |  |  |
+| fee | [fixed64](#fixed64) |  |  |
 
 ### NullifierRequest
 
@@ -314,5 +314,5 @@
 | ----- | ---- | ----- | ----------- |
 | note | [Note](#phoenix.Note) |  |  |
 | pk | [PublicKey](#phoenix.PublicKey) |  |  |
-| value | [uint64](#uint64) |  |  |
+| value | [fixed64](#fixed64) |  |  |
 | blinding_factor | [Scalar](#phoenix.Scalar) |  |  |

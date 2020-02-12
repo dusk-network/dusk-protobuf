@@ -39,13 +39,13 @@ message NewTransactionInputRequest {
 message NewTransactionOutputRequest {
   NoteType note_type = 1;
   PublicKey pk = 2;
-  uint64 value = 3;
+  fixed64 value = 3;
 }
 
 message NewTransactionRequest {
   repeated TransactionInput inputs = 1;
   repeated TransactionOutput outputs = 2;
-  uint64 fee = 3;
+  fixed64 fee = 3;
 }
 
 message VerifyTransactionResponse {}
