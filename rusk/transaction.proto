@@ -18,10 +18,16 @@ message TransactionOutput {
   Scalar blinding_factor = 4;
 }
 
+message Fee {
+  fixed64 gas_limit = 1;
+  fixed64 gas_price = 2;
+  TransactionOutput fee = 3;
+}
+
 message Transaction {
   repeated TransactionInput inputs = 1;
   repeated TransactionOutput outputs = 2;
-  TransactionOutput fee = 3;
+  Fee fee = 3;
   bytes proof = 4;
   bytes data = 5;
 }
