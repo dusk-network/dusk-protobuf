@@ -21,7 +21,9 @@ message TransactionOutput {
 message Transaction {
   repeated TransactionInput inputs = 1;
   repeated TransactionOutput outputs = 2;
-  TransactionOutput fee = 3;
-  bytes proof = 4;
-  bytes data = 5;
+  TransactionOutput crossover = 3;
+  TransactionOutput contract_output = 4;
+  TransactionOutput fee = 5;
+  repeated bytes proofs = 6;
+  repeated bytes data = 7;
 }
