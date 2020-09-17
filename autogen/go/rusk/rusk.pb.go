@@ -4,13 +4,18 @@
 // 	protoc        v3.11.4
 // source: rusk.proto
 
-package _
+package rusk
 
 import (
+	context "context"
 	proto "github.com/golang/protobuf/proto"
+	grpc "google.golang.org/grpc"
+	codes "google.golang.org/grpc/codes"
+	status "google.golang.org/grpc/status"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
+	sync "sync"
 )
 
 const (
@@ -24,6 +29,437 @@ const (
 // of the legacy proto package is being used.
 const _ = proto.ProtoPackageIsVersion4
 
+type VerifyStateTransitionRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Txs    []*Transaction `protobuf:"bytes,1,rep,name=txs,proto3" json:"txs,omitempty"`
+	Height uint64         `protobuf:"fixed64,2,opt,name=height,proto3" json:"height,omitempty"`
+	Seed   []byte         `protobuf:"bytes,3,opt,name=seed,proto3" json:"seed,omitempty"`
+}
+
+func (x *VerifyStateTransitionRequest) Reset() {
+	*x = VerifyStateTransitionRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_rusk_proto_msgTypes[0]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *VerifyStateTransitionRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*VerifyStateTransitionRequest) ProtoMessage() {}
+
+func (x *VerifyStateTransitionRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_rusk_proto_msgTypes[0]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use VerifyStateTransitionRequest.ProtoReflect.Descriptor instead.
+func (*VerifyStateTransitionRequest) Descriptor() ([]byte, []int) {
+	return file_rusk_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *VerifyStateTransitionRequest) GetTxs() []*Transaction {
+	if x != nil {
+		return x.Txs
+	}
+	return nil
+}
+
+func (x *VerifyStateTransitionRequest) GetHeight() uint64 {
+	if x != nil {
+		return x.Height
+	}
+	return 0
+}
+
+func (x *VerifyStateTransitionRequest) GetSeed() []byte {
+	if x != nil {
+		return x.Seed
+	}
+	return nil
+}
+
+type VerifyStateTransitionResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	FailedCalls []uint64 `protobuf:"fixed64,1,rep,packed,name=failed_calls,json=failedCalls,proto3" json:"failed_calls,omitempty"`
+}
+
+func (x *VerifyStateTransitionResponse) Reset() {
+	*x = VerifyStateTransitionResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_rusk_proto_msgTypes[1]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *VerifyStateTransitionResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*VerifyStateTransitionResponse) ProtoMessage() {}
+
+func (x *VerifyStateTransitionResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_rusk_proto_msgTypes[1]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use VerifyStateTransitionResponse.ProtoReflect.Descriptor instead.
+func (*VerifyStateTransitionResponse) Descriptor() ([]byte, []int) {
+	return file_rusk_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *VerifyStateTransitionResponse) GetFailedCalls() []uint64 {
+	if x != nil {
+		return x.FailedCalls
+	}
+	return nil
+}
+
+type ExecuteStateTransitionRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Txs    []*Transaction `protobuf:"bytes,1,rep,name=txs,proto3" json:"txs,omitempty"`
+	Height uint64         `protobuf:"fixed64,2,opt,name=height,proto3" json:"height,omitempty"`
+	Seed   []byte         `protobuf:"bytes,3,opt,name=seed,proto3" json:"seed,omitempty"`
+}
+
+func (x *ExecuteStateTransitionRequest) Reset() {
+	*x = ExecuteStateTransitionRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_rusk_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ExecuteStateTransitionRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ExecuteStateTransitionRequest) ProtoMessage() {}
+
+func (x *ExecuteStateTransitionRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_rusk_proto_msgTypes[2]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ExecuteStateTransitionRequest.ProtoReflect.Descriptor instead.
+func (*ExecuteStateTransitionRequest) Descriptor() ([]byte, []int) {
+	return file_rusk_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *ExecuteStateTransitionRequest) GetTxs() []*Transaction {
+	if x != nil {
+		return x.Txs
+	}
+	return nil
+}
+
+func (x *ExecuteStateTransitionRequest) GetHeight() uint64 {
+	if x != nil {
+		return x.Height
+	}
+	return 0
+}
+
+func (x *ExecuteStateTransitionRequest) GetSeed() []byte {
+	if x != nil {
+		return x.Seed
+	}
+	return nil
+}
+
+type ExecuteStateTransitionResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Success      bool   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	ErrorMessage string `protobuf:"bytes,2,opt,name=error_message,json=errorMessage,proto3" json:"error_message,omitempty"`
+}
+
+func (x *ExecuteStateTransitionResponse) Reset() {
+	*x = ExecuteStateTransitionResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_rusk_proto_msgTypes[3]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ExecuteStateTransitionResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ExecuteStateTransitionResponse) ProtoMessage() {}
+
+func (x *ExecuteStateTransitionResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_rusk_proto_msgTypes[3]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ExecuteStateTransitionResponse.ProtoReflect.Descriptor instead.
+func (*ExecuteStateTransitionResponse) Descriptor() ([]byte, []int) {
+	return file_rusk_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *ExecuteStateTransitionResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+func (x *ExecuteStateTransitionResponse) GetErrorMessage() string {
+	if x != nil {
+		return x.ErrorMessage
+	}
+	return ""
+}
+
+type Provisioner struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	PublicKeyBls []byte   `protobuf:"bytes,1,opt,name=public_key_bls,json=publicKeyBls,proto3" json:"public_key_bls,omitempty"`
+	Stakes       []*Stake `protobuf:"bytes,2,rep,name=stakes,proto3" json:"stakes,omitempty"`
+}
+
+func (x *Provisioner) Reset() {
+	*x = Provisioner{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_rusk_proto_msgTypes[4]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *Provisioner) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Provisioner) ProtoMessage() {}
+
+func (x *Provisioner) ProtoReflect() protoreflect.Message {
+	mi := &file_rusk_proto_msgTypes[4]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Provisioner.ProtoReflect.Descriptor instead.
+func (*Provisioner) Descriptor() ([]byte, []int) {
+	return file_rusk_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *Provisioner) GetPublicKeyBls() []byte {
+	if x != nil {
+		return x.PublicKeyBls
+	}
+	return nil
+}
+
+func (x *Provisioner) GetStakes() []*Stake {
+	if x != nil {
+		return x.Stakes
+	}
+	return nil
+}
+
+type Stake struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Amount      uint64 `protobuf:"fixed64,1,opt,name=amount,proto3" json:"amount,omitempty"`
+	StartHeight uint64 `protobuf:"fixed64,2,opt,name=start_height,json=startHeight,proto3" json:"start_height,omitempty"`
+	EndHeight   uint64 `protobuf:"fixed64,3,opt,name=end_height,json=endHeight,proto3" json:"end_height,omitempty"`
+}
+
+func (x *Stake) Reset() {
+	*x = Stake{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_rusk_proto_msgTypes[5]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *Stake) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Stake) ProtoMessage() {}
+
+func (x *Stake) ProtoReflect() protoreflect.Message {
+	mi := &file_rusk_proto_msgTypes[5]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Stake.ProtoReflect.Descriptor instead.
+func (*Stake) Descriptor() ([]byte, []int) {
+	return file_rusk_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *Stake) GetAmount() uint64 {
+	if x != nil {
+		return x.Amount
+	}
+	return 0
+}
+
+func (x *Stake) GetStartHeight() uint64 {
+	if x != nil {
+		return x.StartHeight
+	}
+	return 0
+}
+
+func (x *Stake) GetEndHeight() uint64 {
+	if x != nil {
+		return x.EndHeight
+	}
+	return 0
+}
+
+type GetProvisionersRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *GetProvisionersRequest) Reset() {
+	*x = GetProvisionersRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_rusk_proto_msgTypes[6]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetProvisionersRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetProvisionersRequest) ProtoMessage() {}
+
+func (x *GetProvisionersRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_rusk_proto_msgTypes[6]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetProvisionersRequest.ProtoReflect.Descriptor instead.
+func (*GetProvisionersRequest) Descriptor() ([]byte, []int) {
+	return file_rusk_proto_rawDescGZIP(), []int{6}
+}
+
+type GetProvisionersResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Provisioners []*Provisioner `protobuf:"bytes,1,rep,name=provisioners,proto3" json:"provisioners,omitempty"`
+}
+
+func (x *GetProvisionersResponse) Reset() {
+	*x = GetProvisionersResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_rusk_proto_msgTypes[7]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetProvisionersResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetProvisionersResponse) ProtoMessage() {}
+
+func (x *GetProvisionersResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_rusk_proto_msgTypes[7]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetProvisionersResponse.ProtoReflect.Descriptor instead.
+func (*GetProvisionersResponse) Descriptor() ([]byte, []int) {
+	return file_rusk_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *GetProvisionersResponse) GetProvisioners() []*Provisioner {
+	if x != nil {
+		return x.Provisioners
+	}
+	return nil
+}
+
 var File_rusk_proto protoreflect.FileDescriptor
 
 var file_rusk_proto_rawDesc = []byte{
@@ -32,19 +468,114 @@ var file_rusk_proto_rawDesc = []byte{
 	0x62, 0x69, 0x64, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x0e, 0x62, 0x6c, 0x69, 0x6e, 0x64,
 	0x62, 0x69, 0x64, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x11, 0x74, 0x72, 0x61, 0x6e, 0x73,
 	0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x0a, 0x6b, 0x65,
-	0x79, 0x73, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x42, 0x26, 0x5a, 0x24, 0x67, 0x69, 0x74, 0x68,
-	0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x64, 0x75, 0x73, 0x6b, 0x2d, 0x6e, 0x65, 0x74, 0x77,
-	0x6f, 0x72, 0x6b, 0x2f, 0x72, 0x75, 0x73, 0x6b, 0x2d, 0x73, 0x63, 0x68, 0x65, 0x6d, 0x61, 0x2f,
-	0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x79, 0x73, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x6f, 0x0a, 0x1c, 0x56, 0x65, 0x72, 0x69,
+	0x66, 0x79, 0x53, 0x74, 0x61, 0x74, 0x65, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x69, 0x74, 0x69, 0x6f,
+	0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x23, 0x0a, 0x03, 0x74, 0x78, 0x73, 0x18,
+	0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x11, 0x2e, 0x72, 0x75, 0x73, 0x6b, 0x2e, 0x54, 0x72, 0x61,
+	0x6e, 0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x03, 0x74, 0x78, 0x73, 0x12, 0x16, 0x0a,
+	0x06, 0x68, 0x65, 0x69, 0x67, 0x68, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x06, 0x52, 0x06, 0x68,
+	0x65, 0x69, 0x67, 0x68, 0x74, 0x12, 0x12, 0x0a, 0x04, 0x73, 0x65, 0x65, 0x64, 0x18, 0x03, 0x20,
+	0x01, 0x28, 0x0c, 0x52, 0x04, 0x73, 0x65, 0x65, 0x64, 0x22, 0x42, 0x0a, 0x1d, 0x56, 0x65, 0x72,
+	0x69, 0x66, 0x79, 0x53, 0x74, 0x61, 0x74, 0x65, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x69, 0x74, 0x69,
+	0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x21, 0x0a, 0x0c, 0x66, 0x61,
+	0x69, 0x6c, 0x65, 0x64, 0x5f, 0x63, 0x61, 0x6c, 0x6c, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x06,
+	0x52, 0x0b, 0x66, 0x61, 0x69, 0x6c, 0x65, 0x64, 0x43, 0x61, 0x6c, 0x6c, 0x73, 0x22, 0x70, 0x0a,
+	0x1d, 0x45, 0x78, 0x65, 0x63, 0x75, 0x74, 0x65, 0x53, 0x74, 0x61, 0x74, 0x65, 0x54, 0x72, 0x61,
+	0x6e, 0x73, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x23,
+	0x0a, 0x03, 0x74, 0x78, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x11, 0x2e, 0x72, 0x75,
+	0x73, 0x6b, 0x2e, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x03,
+	0x74, 0x78, 0x73, 0x12, 0x16, 0x0a, 0x06, 0x68, 0x65, 0x69, 0x67, 0x68, 0x74, 0x18, 0x02, 0x20,
+	0x01, 0x28, 0x06, 0x52, 0x06, 0x68, 0x65, 0x69, 0x67, 0x68, 0x74, 0x12, 0x12, 0x0a, 0x04, 0x73,
+	0x65, 0x65, 0x64, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x04, 0x73, 0x65, 0x65, 0x64, 0x22,
+	0x5f, 0x0a, 0x1e, 0x45, 0x78, 0x65, 0x63, 0x75, 0x74, 0x65, 0x53, 0x74, 0x61, 0x74, 0x65, 0x54,
+	0x72, 0x61, 0x6e, 0x73, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
+	0x65, 0x12, 0x18, 0x0a, 0x07, 0x73, 0x75, 0x63, 0x63, 0x65, 0x73, 0x73, 0x18, 0x01, 0x20, 0x01,
+	0x28, 0x08, 0x52, 0x07, 0x73, 0x75, 0x63, 0x63, 0x65, 0x73, 0x73, 0x12, 0x23, 0x0a, 0x0d, 0x65,
+	0x72, 0x72, 0x6f, 0x72, 0x5f, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x18, 0x02, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x0c, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65,
+	0x22, 0x58, 0x0a, 0x0b, 0x50, 0x72, 0x6f, 0x76, 0x69, 0x73, 0x69, 0x6f, 0x6e, 0x65, 0x72, 0x12,
+	0x24, 0x0a, 0x0e, 0x70, 0x75, 0x62, 0x6c, 0x69, 0x63, 0x5f, 0x6b, 0x65, 0x79, 0x5f, 0x62, 0x6c,
+	0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x0c, 0x70, 0x75, 0x62, 0x6c, 0x69, 0x63, 0x4b,
+	0x65, 0x79, 0x42, 0x6c, 0x73, 0x12, 0x23, 0x0a, 0x06, 0x73, 0x74, 0x61, 0x6b, 0x65, 0x73, 0x18,
+	0x02, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x0b, 0x2e, 0x72, 0x75, 0x73, 0x6b, 0x2e, 0x53, 0x74, 0x61,
+	0x6b, 0x65, 0x52, 0x06, 0x73, 0x74, 0x61, 0x6b, 0x65, 0x73, 0x22, 0x61, 0x0a, 0x05, 0x53, 0x74,
+	0x61, 0x6b, 0x65, 0x12, 0x16, 0x0a, 0x06, 0x61, 0x6d, 0x6f, 0x75, 0x6e, 0x74, 0x18, 0x01, 0x20,
+	0x01, 0x28, 0x06, 0x52, 0x06, 0x61, 0x6d, 0x6f, 0x75, 0x6e, 0x74, 0x12, 0x21, 0x0a, 0x0c, 0x73,
+	0x74, 0x61, 0x72, 0x74, 0x5f, 0x68, 0x65, 0x69, 0x67, 0x68, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28,
+	0x06, 0x52, 0x0b, 0x73, 0x74, 0x61, 0x72, 0x74, 0x48, 0x65, 0x69, 0x67, 0x68, 0x74, 0x12, 0x1d,
+	0x0a, 0x0a, 0x65, 0x6e, 0x64, 0x5f, 0x68, 0x65, 0x69, 0x67, 0x68, 0x74, 0x18, 0x03, 0x20, 0x01,
+	0x28, 0x06, 0x52, 0x09, 0x65, 0x6e, 0x64, 0x48, 0x65, 0x69, 0x67, 0x68, 0x74, 0x22, 0x18, 0x0a,
+	0x16, 0x47, 0x65, 0x74, 0x50, 0x72, 0x6f, 0x76, 0x69, 0x73, 0x69, 0x6f, 0x6e, 0x65, 0x72, 0x73,
+	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x22, 0x50, 0x0a, 0x17, 0x47, 0x65, 0x74, 0x50, 0x72,
+	0x6f, 0x76, 0x69, 0x73, 0x69, 0x6f, 0x6e, 0x65, 0x72, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
+	0x73, 0x65, 0x12, 0x35, 0x0a, 0x0c, 0x70, 0x72, 0x6f, 0x76, 0x69, 0x73, 0x69, 0x6f, 0x6e, 0x65,
+	0x72, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x11, 0x2e, 0x72, 0x75, 0x73, 0x6b, 0x2e,
+	0x50, 0x72, 0x6f, 0x76, 0x69, 0x73, 0x69, 0x6f, 0x6e, 0x65, 0x72, 0x52, 0x0c, 0x70, 0x72, 0x6f,
+	0x76, 0x69, 0x73, 0x69, 0x6f, 0x6e, 0x65, 0x72, 0x73, 0x32, 0xa4, 0x02, 0x0a, 0x05, 0x53, 0x74,
+	0x61, 0x74, 0x65, 0x12, 0x62, 0x0a, 0x15, 0x56, 0x65, 0x72, 0x69, 0x66, 0x79, 0x53, 0x74, 0x61,
+	0x74, 0x65, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x22, 0x2e, 0x72,
+	0x75, 0x73, 0x6b, 0x2e, 0x56, 0x65, 0x72, 0x69, 0x66, 0x79, 0x53, 0x74, 0x61, 0x74, 0x65, 0x54,
+	0x72, 0x61, 0x6e, 0x73, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
+	0x1a, 0x23, 0x2e, 0x72, 0x75, 0x73, 0x6b, 0x2e, 0x56, 0x65, 0x72, 0x69, 0x66, 0x79, 0x53, 0x74,
+	0x61, 0x74, 0x65, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73,
+	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x65, 0x0a, 0x16, 0x45, 0x78, 0x65, 0x63, 0x75,
+	0x74, 0x65, 0x53, 0x74, 0x61, 0x74, 0x65, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x69, 0x74, 0x69, 0x6f,
+	0x6e, 0x12, 0x23, 0x2e, 0x72, 0x75, 0x73, 0x6b, 0x2e, 0x45, 0x78, 0x65, 0x63, 0x75, 0x74, 0x65,
+	0x53, 0x74, 0x61, 0x74, 0x65, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x52,
+	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x24, 0x2e, 0x72, 0x75, 0x73, 0x6b, 0x2e, 0x45, 0x78,
+	0x65, 0x63, 0x75, 0x74, 0x65, 0x53, 0x74, 0x61, 0x74, 0x65, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x69,
+	0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x50,
+	0x0a, 0x0f, 0x47, 0x65, 0x74, 0x50, 0x72, 0x6f, 0x76, 0x69, 0x73, 0x69, 0x6f, 0x6e, 0x65, 0x72,
+	0x73, 0x12, 0x1c, 0x2e, 0x72, 0x75, 0x73, 0x6b, 0x2e, 0x47, 0x65, 0x74, 0x50, 0x72, 0x6f, 0x76,
+	0x69, 0x73, 0x69, 0x6f, 0x6e, 0x65, 0x72, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a,
+	0x1d, 0x2e, 0x72, 0x75, 0x73, 0x6b, 0x2e, 0x47, 0x65, 0x74, 0x50, 0x72, 0x6f, 0x76, 0x69, 0x73,
+	0x69, 0x6f, 0x6e, 0x65, 0x72, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00,
+	0x42, 0x2a, 0x5a, 0x28, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x64,
+	0x75, 0x73, 0x6b, 0x2d, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x2f, 0x72, 0x75, 0x73, 0x6b,
+	0x2d, 0x73, 0x63, 0x68, 0x65, 0x6d, 0x61, 0x3b, 0x72, 0x75, 0x73, 0x6b, 0x62, 0x06, 0x70, 0x72,
+	0x6f, 0x74, 0x6f, 0x33,
 }
 
-var file_rusk_proto_goTypes = []interface{}{}
+var (
+	file_rusk_proto_rawDescOnce sync.Once
+	file_rusk_proto_rawDescData = file_rusk_proto_rawDesc
+)
+
+func file_rusk_proto_rawDescGZIP() []byte {
+	file_rusk_proto_rawDescOnce.Do(func() {
+		file_rusk_proto_rawDescData = protoimpl.X.CompressGZIP(file_rusk_proto_rawDescData)
+	})
+	return file_rusk_proto_rawDescData
+}
+
+var file_rusk_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
+var file_rusk_proto_goTypes = []interface{}{
+	(*VerifyStateTransitionRequest)(nil),   // 0: rusk.VerifyStateTransitionRequest
+	(*VerifyStateTransitionResponse)(nil),  // 1: rusk.VerifyStateTransitionResponse
+	(*ExecuteStateTransitionRequest)(nil),  // 2: rusk.ExecuteStateTransitionRequest
+	(*ExecuteStateTransitionResponse)(nil), // 3: rusk.ExecuteStateTransitionResponse
+	(*Provisioner)(nil),                    // 4: rusk.Provisioner
+	(*Stake)(nil),                          // 5: rusk.Stake
+	(*GetProvisionersRequest)(nil),         // 6: rusk.GetProvisionersRequest
+	(*GetProvisionersResponse)(nil),        // 7: rusk.GetProvisionersResponse
+	(*Transaction)(nil),                    // 8: rusk.Transaction
+}
 var file_rusk_proto_depIdxs = []int32{
-	0, // [0:0] is the sub-list for method output_type
-	0, // [0:0] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	8, // 0: rusk.VerifyStateTransitionRequest.txs:type_name -> rusk.Transaction
+	8, // 1: rusk.ExecuteStateTransitionRequest.txs:type_name -> rusk.Transaction
+	5, // 2: rusk.Provisioner.stakes:type_name -> rusk.Stake
+	4, // 3: rusk.GetProvisionersResponse.provisioners:type_name -> rusk.Provisioner
+	0, // 4: rusk.State.VerifyStateTransition:input_type -> rusk.VerifyStateTransitionRequest
+	2, // 5: rusk.State.ExecuteStateTransition:input_type -> rusk.ExecuteStateTransitionRequest
+	6, // 6: rusk.State.GetProvisioners:input_type -> rusk.GetProvisionersRequest
+	1, // 7: rusk.State.VerifyStateTransition:output_type -> rusk.VerifyStateTransitionResponse
+	3, // 8: rusk.State.ExecuteStateTransition:output_type -> rusk.ExecuteStateTransitionResponse
+	7, // 9: rusk.State.GetProvisioners:output_type -> rusk.GetProvisionersResponse
+	7, // [7:10] is the sub-list for method output_type
+	4, // [4:7] is the sub-list for method input_type
+	4, // [4:4] is the sub-list for extension type_name
+	4, // [4:4] is the sub-list for extension extendee
+	0, // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_rusk_proto_init() }
@@ -57,21 +588,272 @@ func file_rusk_proto_init() {
 	file_blindbid_proto_init()
 	file_transaction_proto_init()
 	file_keys_proto_init()
+	if !protoimpl.UnsafeEnabled {
+		file_rusk_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*VerifyStateTransitionRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_rusk_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*VerifyStateTransitionResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_rusk_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ExecuteStateTransitionRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_rusk_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ExecuteStateTransitionResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_rusk_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Provisioner); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_rusk_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Stake); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_rusk_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetProvisionersRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_rusk_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetProvisionersResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_rusk_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   0,
+			NumMessages:   8,
 			NumExtensions: 0,
-			NumServices:   0,
+			NumServices:   1,
 		},
 		GoTypes:           file_rusk_proto_goTypes,
 		DependencyIndexes: file_rusk_proto_depIdxs,
+		MessageInfos:      file_rusk_proto_msgTypes,
 	}.Build()
 	File_rusk_proto = out.File
 	file_rusk_proto_rawDesc = nil
 	file_rusk_proto_goTypes = nil
 	file_rusk_proto_depIdxs = nil
+}
+
+// Reference imports to suppress errors if they are not otherwise used.
+var _ context.Context
+var _ grpc.ClientConnInterface
+
+// This is a compile-time assertion to ensure that this generated file
+// is compatible with the grpc package it is being compiled against.
+const _ = grpc.SupportPackageIsVersion6
+
+// StateClient is the client API for State service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
+type StateClient interface {
+	VerifyStateTransition(ctx context.Context, in *VerifyStateTransitionRequest, opts ...grpc.CallOption) (*VerifyStateTransitionResponse, error)
+	ExecuteStateTransition(ctx context.Context, in *ExecuteStateTransitionRequest, opts ...grpc.CallOption) (*ExecuteStateTransitionResponse, error)
+	GetProvisioners(ctx context.Context, in *GetProvisionersRequest, opts ...grpc.CallOption) (*GetProvisionersResponse, error)
+}
+
+type stateClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewStateClient(cc grpc.ClientConnInterface) StateClient {
+	return &stateClient{cc}
+}
+
+func (c *stateClient) VerifyStateTransition(ctx context.Context, in *VerifyStateTransitionRequest, opts ...grpc.CallOption) (*VerifyStateTransitionResponse, error) {
+	out := new(VerifyStateTransitionResponse)
+	err := c.cc.Invoke(ctx, "/rusk.State/VerifyStateTransition", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *stateClient) ExecuteStateTransition(ctx context.Context, in *ExecuteStateTransitionRequest, opts ...grpc.CallOption) (*ExecuteStateTransitionResponse, error) {
+	out := new(ExecuteStateTransitionResponse)
+	err := c.cc.Invoke(ctx, "/rusk.State/ExecuteStateTransition", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *stateClient) GetProvisioners(ctx context.Context, in *GetProvisionersRequest, opts ...grpc.CallOption) (*GetProvisionersResponse, error) {
+	out := new(GetProvisionersResponse)
+	err := c.cc.Invoke(ctx, "/rusk.State/GetProvisioners", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// StateServer is the server API for State service.
+type StateServer interface {
+	VerifyStateTransition(context.Context, *VerifyStateTransitionRequest) (*VerifyStateTransitionResponse, error)
+	ExecuteStateTransition(context.Context, *ExecuteStateTransitionRequest) (*ExecuteStateTransitionResponse, error)
+	GetProvisioners(context.Context, *GetProvisionersRequest) (*GetProvisionersResponse, error)
+}
+
+// UnimplementedStateServer can be embedded to have forward compatible implementations.
+type UnimplementedStateServer struct {
+}
+
+func (*UnimplementedStateServer) VerifyStateTransition(context.Context, *VerifyStateTransitionRequest) (*VerifyStateTransitionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method VerifyStateTransition not implemented")
+}
+func (*UnimplementedStateServer) ExecuteStateTransition(context.Context, *ExecuteStateTransitionRequest) (*ExecuteStateTransitionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ExecuteStateTransition not implemented")
+}
+func (*UnimplementedStateServer) GetProvisioners(context.Context, *GetProvisionersRequest) (*GetProvisionersResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetProvisioners not implemented")
+}
+
+func RegisterStateServer(s *grpc.Server, srv StateServer) {
+	s.RegisterService(&_State_serviceDesc, srv)
+}
+
+func _State_VerifyStateTransition_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(VerifyStateTransitionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StateServer).VerifyStateTransition(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/rusk.State/VerifyStateTransition",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StateServer).VerifyStateTransition(ctx, req.(*VerifyStateTransitionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _State_ExecuteStateTransition_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ExecuteStateTransitionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StateServer).ExecuteStateTransition(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/rusk.State/ExecuteStateTransition",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StateServer).ExecuteStateTransition(ctx, req.(*ExecuteStateTransitionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _State_GetProvisioners_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetProvisionersRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StateServer).GetProvisioners(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/rusk.State/GetProvisioners",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StateServer).GetProvisioners(ctx, req.(*GetProvisionersRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+var _State_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "rusk.State",
+	HandlerType: (*StateServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "VerifyStateTransition",
+			Handler:    _State_VerifyStateTransition_Handler,
+		},
+		{
+			MethodName: "ExecuteStateTransition",
+			Handler:    _State_ExecuteStateTransition_Handler,
+		},
+		{
+			MethodName: "GetProvisioners",
+			Handler:    _State_GetProvisioners_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "rusk.proto",
 }
