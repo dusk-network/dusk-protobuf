@@ -24,7 +24,9 @@ help: ## Display this help screen
 mock-monitor:
 	@protoc -I./monitor --gogo_out=plugins=grpc,paths=source_relative:./autogen/go/monitor --gogrpcmock_out=paths=source_relative:./autogen/go/monitor ./monitor/*.proto
 mock-rusk:
-	@protoc -I./rusk --gogo_out=plugins=grpc,paths=source_relative:./autogen/go/rusk --gogrpcmock_out=paths=source_relative:./autogen/go/rusk ./rusk/*.proto
+	git clone git@github.com:dusk-network/rusk-schema.git
+	@protoc -I./rusk-schema/ --gogo_out=plugins=grpc,paths=source_relative:./autogen/go/rusk --gogrpcmock_out=paths=source_relative:./autogen/go/rusk ./rusk-schema/*.proto
+	rm -rf rusk-schema
 mock-node:
 	@protoc -I./node --gogo_out=plugins=grpc,paths=source_relative:./autogen/go/node --gogrpcmock_out=paths=source_relative:./autogen/go/node ./node/*.proto
 gen-monitor: 
