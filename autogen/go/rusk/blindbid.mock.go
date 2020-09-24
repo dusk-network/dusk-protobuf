@@ -29,7 +29,7 @@ func (m *BlindBidServiceMock) GenerateScore(ctx context.Context, req *GenerateSc
 func (m *BlindBidServiceMock) VerifyScore(ctx context.Context, req *VerifyScoreRequest) (*VerifyScoreResponse, error) {
 	res :=
 		&VerifyScoreResponse{
-			Success: true,
+			Success: false,
 		}
 	return res, nil
 }

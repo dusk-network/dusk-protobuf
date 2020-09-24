@@ -20,7 +20,7 @@ type EchoerMock struct{}
 func (m *EchoerMock) Echo(ctx context.Context, req *EchoRequest) (*EchoResponse, error) {
 	res :=
 		&EchoResponse{
-			Message: "quidem",
+			Message: "qui",
 		}
 	return res, nil
 }
