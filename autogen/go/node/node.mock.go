@@ -20,52 +20,24 @@ type AuthMock struct{}
 func (m *AuthMock) CreateSession(ctx context.Context, req *SessionRequest) (*Session, error) {
 	res :=
 		&Session{
-			AccessToken: "repudiandae",
+			AccessToken: "ducimus",
 		}
 	return res, nil
 }
 func (m *AuthMock) DropSession(ctx context.Context, req *EmptyRequest) (*GenericResponse, error) {
 	res :=
 		&GenericResponse{
-			Response: "tempora",
+			Response: "est",
 		}
 	return res, nil
 }
 
 type WalletMock struct{}
 
-func (m *WalletMock) CreateWallet(ctx context.Context, req *CreateRequest) (*LoadResponse, error) {
-	res :=
-		&LoadResponse{
-			Key: &PubKey{},
-		}
-	return res, nil
-}
-func (m *WalletMock) LoadWallet(ctx context.Context, req *LoadRequest) (*LoadResponse, error) {
-	res :=
-		&LoadResponse{
-			Key: &PubKey{},
-		}
-	return res, nil
-}
-func (m *WalletMock) CreateFromSeed(ctx context.Context, req *CreateRequest) (*LoadResponse, error) {
-	res :=
-		&LoadResponse{
-			Key: &PubKey{},
-		}
-	return res, nil
-}
 func (m *WalletMock) ClearWalletDatabase(ctx context.Context, req *EmptyRequest) (*GenericResponse, error) {
 	res :=
 		&GenericResponse{
-			Response: "quas",
-		}
-	return res, nil
-}
-func (m *WalletMock) GetWalletStatus(ctx context.Context, req *EmptyRequest) (*WalletStatusResponse, error) {
-	res :=
-		&WalletStatusResponse{
-			Loaded: true,
+			Response: "vel",
 		}
 	return res, nil
 }
@@ -87,50 +59,50 @@ func (m *WalletMock) GetTxHistory(ctx context.Context, req *EmptyRequest) (*TxHi
 			Records: []*TxRecord{
 				&TxRecord{
 					Direction:  0,
-					Timestamp:  269,
-					Type:       6,
+					Timestamp:  638,
+					Type:       3,
 					Obfuscated: true,
-				},
-				&TxRecord{
-					Direction:  0,
-					Timestamp:  2,
-					Type:       5,
-					Obfuscated: true,
-				},
-				&TxRecord{
-					Direction:  0,
-					Timestamp:  751,
-					Type:       5,
-					Obfuscated: false,
 				},
 				&TxRecord{
 					Direction:  1,
-					Timestamp:  975,
+					Timestamp:  789,
+					Type:       4,
+					Obfuscated: true,
+				},
+				&TxRecord{
+					Direction:  0,
+					Timestamp:  191,
+					Type:       2,
+					Obfuscated: true,
+				},
+				&TxRecord{
+					Direction:  0,
+					Timestamp:  830,
 					Type:       0,
 					Obfuscated: true,
 				},
 				&TxRecord{
-					Direction:  1,
-					Timestamp:  712,
-					Type:       7,
+					Direction:  0,
+					Timestamp:  70,
+					Type:       0,
+					Obfuscated: true,
+				},
+				&TxRecord{
+					Direction:  0,
+					Timestamp:  780,
+					Type:       4,
 					Obfuscated: true,
 				},
 				&TxRecord{
 					Direction:  1,
-					Timestamp:  263,
-					Type:       5,
-					Obfuscated: true,
-				},
-				&TxRecord{
-					Direction:  1,
-					Timestamp:  452,
+					Timestamp:  147,
 					Type:       6,
 					Obfuscated: true,
 				},
 				&TxRecord{
 					Direction:  0,
-					Timestamp:  800,
-					Type:       3,
+					Timestamp:  467,
+					Type:       1,
 					Obfuscated: true,
 				},
 			},
@@ -150,36 +122,36 @@ func (m *MempoolMock) SelectTx(ctx context.Context, req *SelectRequest) (*Select
 		&SelectResponse{
 			Result: []*Tx{
 				&Tx{
-					Type: 0,
-					Id:   "3e37fa8c-bf62-4f39-8db6-40f9102d1803",
-				},
-				&Tx{
-					Type: 2,
-					Id:   "7b027975-c9d1-4834-9445-c29a2f7f8be6",
-				},
-				&Tx{
-					Type: 7,
-					Id:   "2113ca1b-d21c-45b2-a6f6-3be9bbb8a6e9",
+					Type: 5,
+					Id:   "8aa2b95e-1f90-4693-8323-e01321c763e2",
 				},
 				&Tx{
 					Type: 6,
-					Id:   "652d71bc-2de8-4465-8dc5-1dc5d3b6ce03",
+					Id:   "99638eda-9922-4e76-b5b4-1e582181d329",
 				},
 				&Tx{
-					Type: 0,
-					Id:   "b0129f65-ef09-4f86-bc95-25ee366141a2",
+					Type: 7,
+					Id:   "865d0ea3-c62b-49b6-9aaf-64d3738ed971",
+				},
+				&Tx{
+					Type: 2,
+					Id:   "902d3b72-d70c-444d-baad-f380d28f7d82",
+				},
+				&Tx{
+					Type: 7,
+					Id:   "ca579be4-48d1-4d28-868b-e82bd74cb6f9",
+				},
+				&Tx{
+					Type: 6,
+					Id:   "afac3c33-a75f-4367-b620-958b8ec26471",
 				},
 				&Tx{
 					Type: 5,
-					Id:   "7896a9fd-d2fb-4c14-82e1-c8ccc04b609e",
+					Id:   "4a0de05e-8a47-4cb6-9839-6821cd808f8e",
 				},
 				&Tx{
 					Type: 4,
-					Id:   "793cf8f3-f419-42b9-8fc7-9822aeef31e3",
-				},
-				&Tx{
-					Type: 1,
-					Id:   "cdd061fb-bd6d-4f4c-a1d8-1c0a6ca24381",
+					Id:   "0ddf32cf-3827-4010-8f1f-83ac00ecff1b",
 				},
 			},
 		}
@@ -191,14 +163,14 @@ type ChainMock struct{}
 func (m *ChainMock) RebuildChain(ctx context.Context, req *EmptyRequest) (*GenericResponse, error) {
 	res :=
 		&GenericResponse{
-			Response: "alias",
+			Response: "sint",
 		}
 	return res, nil
 }
 func (m *ChainMock) GetSyncProgress(ctx context.Context, req *EmptyRequest) (*SyncProgressResponse, error) {
 	res :=
 		&SyncProgressResponse{
-			Progress: 597.72,
+			Progress: 907.1120,
 		}
 	return res, nil
 }
@@ -231,7 +203,7 @@ type ProvisionerMock struct{}
 func (m *ProvisionerMock) AutomateStakes(ctx context.Context, req *EmptyRequest) (*GenericResponse, error) {
 	res :=
 		&GenericResponse{
-			Response: "sed",
+			Response: "repellat",
 		}
 	return res, nil
 }
@@ -241,7 +213,7 @@ type BlockGeneratorMock struct{}
 func (m *BlockGeneratorMock) AutomateBids(ctx context.Context, req *EmptyRequest) (*GenericResponse, error) {
 	res :=
 		&GenericResponse{
-			Response: "et",
+			Response: "beatae",
 		}
 	return res, nil
 }
