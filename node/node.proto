@@ -17,12 +17,8 @@ service Auth {
 }
 
 service Wallet {
-	rpc CreateWallet(CreateRequest) returns (LoadResponse) {};
-	rpc LoadWallet(LoadRequest) returns (LoadResponse) {};
-	rpc CreateFromSeed(CreateRequest) returns (LoadResponse) {};
 	rpc ClearWalletDatabase(EmptyRequest) returns (GenericResponse) {};
 
-	rpc GetWalletStatus(EmptyRequest) returns (WalletStatusResponse) {};
 	rpc GetAddress(EmptyRequest) returns (LoadResponse) {};
 	rpc GetBalance(EmptyRequest) returns (BalanceResponse) {};
 	rpc GetTxHistory(EmptyRequest) returns (TxHistoryResponse) {};
