@@ -31,7 +31,10 @@ service Mempool {
 
 service Chain {
 	rpc RebuildChain(EmptyRequest) returns (GenericResponse) {};
-	rpc GetSyncProgress(EmptyRequest) returns (SyncProgressResponse) {};
+}
+
+service Synchronizer {
+    rpc GetSyncProgress(EmptyRequest) returns (SyncProgressResponse) {};
 }
 
 service Transactor {

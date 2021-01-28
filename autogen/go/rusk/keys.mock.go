@@ -20,26 +20,14 @@ type KeysMock struct{}
 func (m *KeysMock) GenerateKeys(ctx context.Context, req *GenerateKeysRequest) (*GenerateKeysResponse, error) {
 	res :=
 		&GenerateKeysResponse{
-			Sk: &SecretKey{
-				A: &JubJubScalar{},
-				B: &JubJubScalar{},
-			},
-			Vk: &ViewKey{
-				A:  &JubJubScalar{},
-				BG: &JubJubCompressed{},
-			},
-			Pk: &PublicKey{
-				AG: &JubJubCompressed{},
-				BG: &JubJubCompressed{},
-			},
+			Sk: &SecretKey{},
+			Vk: &ViewKey{},
+			Pk: &PublicKey{},
 		}
 	return res, nil
 }
 func (m *KeysMock) GenerateStealthAddress(ctx context.Context, req *PublicKey) (*StealthAddress, error) {
 	res :=
-		&StealthAddress{
-			RG:  &JubJubCompressed{},
-			PkR: &JubJubCompressed{},
-		}
+		&StealthAddress{}
 	return res, nil
 }
