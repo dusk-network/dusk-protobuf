@@ -19,11 +19,7 @@ type BlindBidServiceMock struct{}
 
 func (m *BlindBidServiceMock) GenerateScore(ctx context.Context, req *GenerateScoreRequest) (*GenerateScoreResponse, error) {
 	res :=
-		&GenerateScoreResponse{
-			BlindbidProof:  &Proof{},
-			Score:          &BlsScalar{},
-			ProverIdentity: &BlsScalar{},
-		}
+		&GenerateScoreResponse{}
 	return res, nil
 }
 func (m *BlindBidServiceMock) VerifyScore(ctx context.Context, req *VerifyScoreRequest) (*VerifyScoreResponse, error) {

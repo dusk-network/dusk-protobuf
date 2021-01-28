@@ -20,90 +20,23 @@ type StakeServiceMock struct{}
 func (m *StakeServiceMock) NewStake(ctx context.Context, req *StakeTransactionRequest) (*Transaction, error) {
 	res :=
 		&Transaction{
-			Version: 80,
-			Type:    629,
-			TxPayload: &TransactionPayload{
-				Anchor: &BlsScalar{},
-				Nullifier: []*BlsScalar{
-					&BlsScalar{},
-					&BlsScalar{},
-					&BlsScalar{},
-					&BlsScalar{},
-					&BlsScalar{},
-					&BlsScalar{},
-					&BlsScalar{},
-					&BlsScalar{},
-				},
-				Crossover: &Crossover{
-					ValueComm:    &JubJubCompressed{},
-					Nonce:        &BlsScalar{},
-					EncyptedData: &PoseidonCipher{},
-				},
-				Notes: []*Note{
-					&Note{
-						Randomness:   &JubJubCompressed{},
-						PkR:          &JubJubCompressed{},
-						Commitment:   &JubJubCompressed{},
-						Nonce:        &BlsScalar{},
-						EncyptedData: &PoseidonCipher{},
-					},
-					&Note{
-						Randomness:   &JubJubCompressed{},
-						PkR:          &JubJubCompressed{},
-						Commitment:   &JubJubCompressed{},
-						Nonce:        &BlsScalar{},
-						EncyptedData: &PoseidonCipher{},
-					},
-					&Note{
-						Randomness:   &JubJubCompressed{},
-						PkR:          &JubJubCompressed{},
-						Commitment:   &JubJubCompressed{},
-						Nonce:        &BlsScalar{},
-						EncyptedData: &PoseidonCipher{},
-					},
-					&Note{
-						Randomness:   &JubJubCompressed{},
-						PkR:          &JubJubCompressed{},
-						Commitment:   &JubJubCompressed{},
-						Nonce:        &BlsScalar{},
-						EncyptedData: &PoseidonCipher{},
-					},
-					&Note{
-						Randomness:   &JubJubCompressed{},
-						PkR:          &JubJubCompressed{},
-						Commitment:   &JubJubCompressed{},
-						Nonce:        &BlsScalar{},
-						EncyptedData: &PoseidonCipher{},
-					},
-					&Note{
-						Randomness:   &JubJubCompressed{},
-						PkR:          &JubJubCompressed{},
-						Commitment:   &JubJubCompressed{},
-						Nonce:        &BlsScalar{},
-						EncyptedData: &PoseidonCipher{},
-					},
-					&Note{
-						Randomness:   &JubJubCompressed{},
-						PkR:          &JubJubCompressed{},
-						Commitment:   &JubJubCompressed{},
-						Nonce:        &BlsScalar{},
-						EncyptedData: &PoseidonCipher{},
-					},
-					&Note{
-						Randomness:   &JubJubCompressed{},
-						PkR:          &JubJubCompressed{},
-						Commitment:   &JubJubCompressed{},
-						Nonce:        &BlsScalar{},
-						EncyptedData: &PoseidonCipher{},
-					},
-				},
-				Fee: &Fee{
-					GasLimit: 247,
-					GasPrice: 18,
-					R:        &JubJubCompressed{},
-					PkR:      &JubJubCompressed{},
-				},
-				SpendingProof: &Proof{},
+			Version: 990,
+			Type:    616,
+		}
+	return res, nil
+}
+func (m *StakeServiceMock) FindStake(ctx context.Context, req *FindStakeRequest) (*FindStakeResponse, error) {
+	res :=
+		&FindStakeResponse{
+			Stakes: []*Stake{
+				&Stake{},
+				&Stake{},
+				&Stake{},
+				&Stake{},
+				&Stake{},
+				&Stake{},
+				&Stake{},
+				&Stake{},
 			},
 		}
 	return res, nil
