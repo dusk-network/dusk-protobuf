@@ -20,8 +20,8 @@ type TransactionServiceMock struct{}
 func (m *TransactionServiceMock) NewTransaction(ctx context.Context, req *TransactionRequest) (*Transaction, error) {
 	res :=
 		&Transaction{
-			Version: 494,
-			Type:    377,
+			Version: 970,
+			Type:    245,
 		}
 	return res, nil
 }
