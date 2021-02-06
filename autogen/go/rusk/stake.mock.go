@@ -20,8 +20,8 @@ type StakeServiceMock struct{}
 func (m *StakeServiceMock) NewStake(ctx context.Context, req *StakeTransactionRequest) (*Transaction, error) {
 	res :=
 		&Transaction{
-			Version: 990,
-			Type:    616,
+			Version: 19,
+			Type:    844,
 		}
 	return res, nil
 }

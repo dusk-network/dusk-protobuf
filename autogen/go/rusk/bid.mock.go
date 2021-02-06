@@ -20,10 +20,10 @@ type BidServiceMock struct{}
 func (m *BidServiceMock) NewBid(ctx context.Context, req *BidTransactionRequest) (*BidTransaction, error) {
 	res :=
 		&BidTransaction{
-			BidTreeStorageIndex: 418,
+			BidTreeStorageIndex: 121,
 			Tx: &Transaction{
-				Version: 990,
-				Type:    938,
+				Version: 547,
+				Type:    143,
 			},
 		}
 	return res, nil

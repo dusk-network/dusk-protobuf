@@ -26,7 +26,7 @@ func (m *StateMock) ExecuteStateTransition(ctx context.Context, req *ExecuteStat
 	res :=
 		&ExecuteStateTransitionResponse{
 			Success:      true,
-			ErrorMessage: "minus",
+			ErrorMessage: "quis",
 		}
 	return res, nil
 }

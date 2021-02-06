@@ -20,8 +20,8 @@ type TransferMock struct{}
 func (m *TransferMock) NewTransfer(ctx context.Context, req *TransferTransactionRequest) (*Transaction, error) {
 	res :=
 		&Transaction{
-			Version: 247,
-			Type:    831,
+			Version: 255,
+			Type:    469,
 		}
 	return res, nil
 }
