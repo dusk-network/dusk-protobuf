@@ -11,6 +11,10 @@ message GenericResponse {
 	string response = 1;
 }
 
+message LogLevelRequest {
+	string level = 1;
+}
+
 service Auth {
     rpc CreateSession(SessionRequest) returns (Session) {};
 	rpc DropSession(EmptyRequest) returns (GenericResponse) {};
@@ -47,4 +51,8 @@ service Provisioner {
 
 service BlockGenerator {
 	rpc AutomateBids(EmptyRequest) returns (GenericResponse) {};
+}
+
+service Config {
+	rpc ChangeLogLevel(LogLevelRequest) returns (GenericResponse) {};
 }
