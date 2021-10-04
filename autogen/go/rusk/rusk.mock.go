@@ -26,7 +26,7 @@ func (m *StateMock) ExecuteStateTransition(ctx context.Context, req *ExecuteStat
 	res :=
 		&ExecuteStateTransitionResponse{
 			Success:      true,
-			ErrorMessage: "quis",
+			ErrorMessage: "dolor",
 		}
 	return res, nil
 }
@@ -131,6 +131,13 @@ func (m *StateMock) GetProvisioners(ctx context.Context, req *GetProvisionersReq
 					},
 				},
 			},
+		}
+	return res, nil
+}
+func (m *StateMock) GetHeight(ctx context.Context, req *GetHeightRequest) (*GetHeightResponse, error) {
+	res :=
+		&GetHeightResponse{
+			Height: 272,
 		}
 	return res, nil
 }
