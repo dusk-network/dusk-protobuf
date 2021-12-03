@@ -32,8 +32,8 @@ mock-node:
 gen-monitor: 
 	@protoc -I./monitor/ ./monitor/*.proto --go_out=plugins=grpc,paths=source_relative:./autogen/go/monitor
 gen-rusk: ## Check out the rusk-schema repo and generate the go files
-	git clone git@github.com:dusk-network/rusk-schema.git
-	@protoc -I./rusk-schema/ ./rusk-schema/*.proto --go_out=plugins=grpc,paths=source_relative:./autogen/go/rusk
-	rm -rf rusk-schema
+	git clone git@github.com:dusk-network/rusk.git
+	@protoc -I./rusk/schema/ ./rusk/schema/*.proto --go_out=plugins=grpc,paths=source_relative:./autogen/go/rusk
+	rm -rf rusk
 gen-node:
 	@protoc -I./node/ ./node/*.proto --go_out=plugins=grpc,paths=source_relative:./autogen/go/node
