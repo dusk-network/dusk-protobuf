@@ -57,7 +57,6 @@ gen-rusk-testnet: download-protoc  ## Check out the testnet branch from rusk rep
 	git clone -b testnet git@github.com:dusk-network/rusk.git
 	./tmp/protoc/bin/protoc \
 	-I./rusk/schema/ ./rusk/schema/*.proto \
-	\
 	--go_out=plugins=grpc,paths=source_relative:./autogen/go/rusk \
 	--go_opt=Mrusk.proto=$(RUSK_PKG) \
 	--go_opt=Mnetwork.proto=$(RUSK_PKG) \
@@ -67,5 +66,5 @@ gen-rusk-testnet: download-protoc  ## Check out the testnet branch from rusk rep
 	--go_opt=Mstake.proto=$(RUSK_PKG) \
 	--go_opt=Mtransaction.proto=$(RUSK_PKG) \
 	--go_opt=Mprovisioner.proto=$(RUSK_PKG) \
-	--go_opt=Mreward.proto=$(RUSK_PKG) \
+	--go_opt=Mreward.proto=$(RUSK_PKG)
 	rm -rf ./rusk
