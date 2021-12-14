@@ -4,11 +4,31 @@ PKG := "github.com/dusk-network/$(PROJECT_NAME)"
 PKG_LIST := $(shell go list ${PKG}/... | grep -v /vendor/)
 #TEST_FLAGS := "-count=1"
 GO_FILES := $(shell find . -name '*.go' | grep -v /vendor/ | grep -v _test.go)
+RUSK_PKG := github.com/dusk-network/dusk-protobuf/autogen/go/rusk
+
 .PHONY: all go clean gen regen-dir help
 
 go: gen-monitor gen-rusk gen-node ## Generate the RPC golang structs
 	@echo "generated packages"
 
+PROTOC := $(shell which protoc)
+
+ifeq ($(shell uname), Linux)
+protoc=protoc-3.19.1-linux-x86_64.zip
+else
+protoc = protoc-3.19.1-osx-x86_64.zip
+endif
+
+download-protoc:
+	@echo $(OS)
+	curl -OL https://github.com/protocolbuffers/protobuf/releases/download/v3.19.1/$(protoc)
+	mkdir -p ./tmp/protoc
+	unzip -o $(protoc) -d ./tmp/protoc bin/protoc
+	unzip -o $(protoc) -d ./tmp/protoc 'include/*'
+	rm -f $(protoc)
+	
+	go install github.com/golang/protobuf/protoc-gen-go@latest
+	
 all: regen-dir mock go ## Recreates the autogen folder and calls regen
 
 mock: mock-monitor mock-rusk mock-node ## Generate the mockups
@@ -23,10 +43,6 @@ help: ## Display this help screen
 	@grep -h -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 mock-monitor:
 	@protoc -I./monitor --gogo_out=plugins=grpc,paths=source_relative:./autogen/go/monitor --gogrpcmock_out=paths=source_relative:./autogen/go/monitor ./monitor/*.proto
-mock-rusk:
-	git clone git@github.com:dusk-network/rusk-schema.git
-	@protoc -I./rusk-schema/ --gogo_out=plugins=grpc,paths=source_relative:./autogen/go/rusk --gogrpcmock_out=paths=source_relative:./autogen/go/rusk ./rusk-schema/*.proto
-	rm -rf rusk-schema
 mock-node:
 	@protoc -I./node --gogo_out=plugins=grpc,paths=source_relative:./autogen/go/node --gogrpcmock_out=paths=source_relative:./autogen/go/node ./node/*.proto
 gen-monitor: 
@@ -37,3 +53,18 @@ gen-rusk: ## Check out the rusk-schema repo and generate the go files
 	rm -rf rusk
 gen-node:
 	@protoc -I./node/ ./node/*.proto --go_out=plugins=grpc,paths=source_relative:./autogen/go/node
+gen-rusk-testnet: download-protoc  ## Check out the testnet branch from rusk repo and generate the go files
+	git clone -b testnet git@github.com:dusk-network/rusk.git
+	./tmp/protoc/bin/protoc \
+	-I./rusk/schema/ ./rusk/schema/*.proto \
+	--go_out=plugins=grpc,paths=source_relative:./autogen/go/rusk \
+	--go_opt=Mrusk.proto=$(RUSK_PKG) \
+	--go_opt=Mnetwork.proto=$(RUSK_PKG) \
+	--go_opt=Mecho.proto=$(RUSK_PKG) \
+	--go_opt=Mkeys.proto=$(RUSK_PKG) \
+	--go_opt=Mtransfer.proto=$(RUSK_PKG) \
+	--go_opt=Mstake.proto=$(RUSK_PKG) \
+	--go_opt=Mtransaction.proto=$(RUSK_PKG) \
+	--go_opt=Mprovisioner.proto=$(RUSK_PKG) \
+	--go_opt=Mreward.proto=$(RUSK_PKG)
+	rm -rf ./rusk
