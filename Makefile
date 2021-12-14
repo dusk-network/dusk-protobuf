@@ -12,7 +12,7 @@ go: gen-monitor gen-rusk gen-node ## Generate the RPC golang structs
 	@echo "generated packages"
 
 PROTOC := $(shell which protoc)
-GOPATH="/home/tech/go"
+
 ifeq ($(shell uname), Linux)
 protoc=protoc-3.19.1-linux-x86_64.zip
 else
@@ -43,10 +43,6 @@ help: ## Display this help screen
 	@grep -h -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 mock-monitor:
 	@protoc -I./monitor --gogo_out=plugins=grpc,paths=source_relative:./autogen/go/monitor --gogrpcmock_out=paths=source_relative:./autogen/go/monitor ./monitor/*.proto
-mock-rusk:
-	git clone git@github.com:dusk-network/rusk-schema.git
-	@protoc -I./rusk-schema/ --gogo_out=plugins=grpc,paths=source_relative:./autogen/go/rusk --gogrpcmock_out=paths=source_relative:./autogen/go/rusk ./rusk-schema/*.proto
-	rm -rf rusk-schema
 mock-node:
 	@protoc -I./node --gogo_out=plugins=grpc,paths=source_relative:./autogen/go/node --gogrpcmock_out=paths=source_relative:./autogen/go/node ./node/*.proto
 gen-monitor: 
@@ -72,5 +68,4 @@ gen-rusk-testnet: download-protoc  ## Check out the testnet branch from rusk rep
 	--go_opt=Mtransaction.proto=$(RUSK_PKG) \
 	--go_opt=Mprovisioner.proto=$(RUSK_PKG) \
 	--go_opt=Mreward.proto=$(RUSK_PKG) \
-
 	rm -rf ./rusk
