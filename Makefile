@@ -47,24 +47,21 @@ mock-node:
 	@protoc -I./node --gogo_out=plugins=grpc,paths=source_relative:./autogen/go/node --gogrpcmock_out=paths=source_relative:./autogen/go/node ./node/*.proto
 gen-monitor: 
 	@protoc -I./monitor/ ./monitor/*.proto --go_out=plugins=grpc,paths=source_relative:./autogen/go/monitor
-gen-rusk: ## Check out the rusk-schema repo and generate the go files
-	git clone git@github.com:dusk-network/rusk.git
-	@protoc -I./rusk/schema/ ./rusk/schema/*.proto --go_out=plugins=grpc,paths=source_relative:./autogen/go/rusk
-	rm -rf rusk
 gen-node:
 	@protoc -I./node/ ./node/*.proto --go_out=plugins=grpc,paths=source_relative:./autogen/go/node
-gen-rusk-testnet: download-protoc  ## Check out the testnet branch from rusk repo and generate the go files
-	git clone -b testnet git@github.com:dusk-network/rusk.git
+gen-rusk: download-protoc
+	git clone git@github.com:dusk-network/rusk.git
 	./tmp/protoc/bin/protoc \
 	-I./rusk/schema/ ./rusk/schema/*.proto \
 	--go_out=plugins=grpc,paths=source_relative:./autogen/go/rusk \
-	--go_opt=Mrusk.proto=$(RUSK_PKG) \
-	--go_opt=Mnetwork.proto=$(RUSK_PKG) \
+	--go_opt=Mstate.proto=$(RUSK_PKG) \
 	--go_opt=Mecho.proto=$(RUSK_PKG) \
-	--go_opt=Mkeys.proto=$(RUSK_PKG) \
-	--go_opt=Mtransfer.proto=$(RUSK_PKG) \
-	--go_opt=Mstake.proto=$(RUSK_PKG) \
-	--go_opt=Mtransaction.proto=$(RUSK_PKG) \
+	--go_opt=Mnetwork.proto=$(RUSK_PKG) \
+	--go_opt=Mprover.proto=$(RUSK_PKG) \
 	--go_opt=Mprovisioner.proto=$(RUSK_PKG) \
-	--go_opt=Mreward.proto=$(RUSK_PKG)
+	--go_opt=Mkeys.proto=$(RUSK_PKG) \
+	--go_opt=Mtransaction.proto=$(RUSK_PKG) \
+	--go_opt=Mstake.proto=$(RUSK_PKG) \
+	--go_opt=Mreward.proto=$(RUSK_PKG) \
+	--go_opt=Mtransfer.proto=$(RUSK_PKG)
 	rm -rf ./rusk
