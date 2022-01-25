@@ -134,6 +134,53 @@ func (x *BroadcastMessage) GetKadcastHeight() uint32 {
 	return 0
 }
 
+type PropagateMessage struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Message []byte `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
+}
+
+func (x *PropagateMessage) Reset() {
+	*x = PropagateMessage{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_network_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *PropagateMessage) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PropagateMessage) ProtoMessage() {}
+
+func (x *PropagateMessage) ProtoReflect() protoreflect.Message {
+	mi := &file_network_proto_msgTypes[2]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PropagateMessage.ProtoReflect.Descriptor instead.
+func (*PropagateMessage) Descriptor() ([]byte, []int) {
+	return file_network_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *PropagateMessage) GetMessage() []byte {
+	if x != nil {
+		return x.Message
+	}
+	return nil
+}
+
 type Message struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -146,7 +193,7 @@ type Message struct {
 func (x *Message) Reset() {
 	*x = Message{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_network_proto_msgTypes[2]
+		mi := &file_network_proto_msgTypes[3]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -159,7 +206,7 @@ func (x *Message) String() string {
 func (*Message) ProtoMessage() {}
 
 func (x *Message) ProtoReflect() protoreflect.Message {
-	mi := &file_network_proto_msgTypes[2]
+	mi := &file_network_proto_msgTypes[3]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -172,7 +219,7 @@ func (x *Message) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Message.ProtoReflect.Descriptor instead.
 func (*Message) Descriptor() ([]byte, []int) {
-	return file_network_proto_rawDescGZIP(), []int{2}
+	return file_network_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *Message) GetMessage() []byte {
@@ -201,7 +248,7 @@ type SendMessage struct {
 func (x *SendMessage) Reset() {
 	*x = SendMessage{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_network_proto_msgTypes[3]
+		mi := &file_network_proto_msgTypes[4]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -214,7 +261,7 @@ func (x *SendMessage) String() string {
 func (*SendMessage) ProtoMessage() {}
 
 func (x *SendMessage) ProtoReflect() protoreflect.Message {
-	mi := &file_network_proto_msgTypes[3]
+	mi := &file_network_proto_msgTypes[4]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -227,7 +274,7 @@ func (x *SendMessage) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SendMessage.ProtoReflect.Descriptor instead.
 func (*SendMessage) Descriptor() ([]byte, []int) {
-	return file_network_proto_rawDescGZIP(), []int{3}
+	return file_network_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *SendMessage) GetMessage() []byte {
@@ -253,7 +300,7 @@ type Null struct {
 func (x *Null) Reset() {
 	*x = Null{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_network_proto_msgTypes[4]
+		mi := &file_network_proto_msgTypes[5]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -266,7 +313,7 @@ func (x *Null) String() string {
 func (*Null) ProtoMessage() {}
 
 func (x *Null) ProtoReflect() protoreflect.Message {
-	mi := &file_network_proto_msgTypes[4]
+	mi := &file_network_proto_msgTypes[5]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -279,7 +326,7 @@ func (x *Null) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Null.ProtoReflect.Descriptor instead.
 func (*Null) Descriptor() ([]byte, []int) {
-	return file_network_proto_rawDescGZIP(), []int{4}
+	return file_network_proto_rawDescGZIP(), []int{5}
 }
 
 var File_network_proto protoreflect.FileDescriptor
@@ -297,27 +344,33 @@ var file_network_proto_rawDesc = []byte{
 	0x01, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x07, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x12, 0x25,
 	0x0a, 0x0e, 0x6b, 0x61, 0x64, 0x63, 0x61, 0x73, 0x74, 0x5f, 0x68, 0x65, 0x69, 0x67, 0x68, 0x74,
 	0x18, 0x02, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x0d, 0x6b, 0x61, 0x64, 0x63, 0x61, 0x73, 0x74, 0x48,
-	0x65, 0x69, 0x67, 0x68, 0x74, 0x22, 0x56, 0x0a, 0x07, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65,
-	0x12, 0x18, 0x0a, 0x07, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28,
-	0x0c, 0x52, 0x07, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x12, 0x31, 0x0a, 0x08, 0x6d, 0x65,
-	0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x15, 0x2e, 0x72,
-	0x75, 0x73, 0x6b, 0x2e, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x4d, 0x65, 0x74, 0x61, 0x64,
-	0x61, 0x74, 0x61, 0x52, 0x08, 0x6d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0x22, 0x4e, 0x0a,
-	0x0b, 0x53, 0x65, 0x6e, 0x64, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x12, 0x18, 0x0a, 0x07,
-	0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x07, 0x6d,
-	0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x12, 0x25, 0x0a, 0x0e, 0x74, 0x61, 0x72, 0x67, 0x65, 0x74,
-	0x5f, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0d,
-	0x74, 0x61, 0x72, 0x67, 0x65, 0x74, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x22, 0x06, 0x0a,
-	0x04, 0x4e, 0x75, 0x6c, 0x6c, 0x32, 0x8e, 0x01, 0x0a, 0x07, 0x4e, 0x65, 0x74, 0x77, 0x6f, 0x72,
-	0x6b, 0x12, 0x27, 0x0a, 0x06, 0x4c, 0x69, 0x73, 0x74, 0x65, 0x6e, 0x12, 0x0a, 0x2e, 0x72, 0x75,
-	0x73, 0x6b, 0x2e, 0x4e, 0x75, 0x6c, 0x6c, 0x1a, 0x0d, 0x2e, 0x72, 0x75, 0x73, 0x6b, 0x2e, 0x4d,
-	0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x22, 0x00, 0x30, 0x01, 0x12, 0x31, 0x0a, 0x09, 0x42, 0x72,
-	0x6f, 0x61, 0x64, 0x63, 0x61, 0x73, 0x74, 0x12, 0x16, 0x2e, 0x72, 0x75, 0x73, 0x6b, 0x2e, 0x42,
-	0x72, 0x6f, 0x61, 0x64, 0x63, 0x61, 0x73, 0x74, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x1a,
-	0x0a, 0x2e, 0x72, 0x75, 0x73, 0x6b, 0x2e, 0x4e, 0x75, 0x6c, 0x6c, 0x22, 0x00, 0x12, 0x27, 0x0a,
-	0x04, 0x53, 0x65, 0x6e, 0x64, 0x12, 0x11, 0x2e, 0x72, 0x75, 0x73, 0x6b, 0x2e, 0x53, 0x65, 0x6e,
-	0x64, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x1a, 0x0a, 0x2e, 0x72, 0x75, 0x73, 0x6b, 0x2e,
-	0x4e, 0x75, 0x6c, 0x6c, 0x22, 0x00, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x65, 0x69, 0x67, 0x68, 0x74, 0x22, 0x2c, 0x0a, 0x10, 0x50, 0x72, 0x6f, 0x70, 0x61, 0x67, 0x61,
+	0x74, 0x65, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x6d, 0x65, 0x73,
+	0x73, 0x61, 0x67, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x07, 0x6d, 0x65, 0x73, 0x73,
+	0x61, 0x67, 0x65, 0x22, 0x56, 0x0a, 0x07, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x12, 0x18,
+	0x0a, 0x07, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0c, 0x52,
+	0x07, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x12, 0x31, 0x0a, 0x08, 0x6d, 0x65, 0x74, 0x61,
+	0x64, 0x61, 0x74, 0x61, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x15, 0x2e, 0x72, 0x75, 0x73,
+	0x6b, 0x2e, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74,
+	0x61, 0x52, 0x08, 0x6d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0x22, 0x4e, 0x0a, 0x0b, 0x53,
+	0x65, 0x6e, 0x64, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x6d, 0x65,
+	0x73, 0x73, 0x61, 0x67, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x07, 0x6d, 0x65, 0x73,
+	0x73, 0x61, 0x67, 0x65, 0x12, 0x25, 0x0a, 0x0e, 0x74, 0x61, 0x72, 0x67, 0x65, 0x74, 0x5f, 0x61,
+	0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0d, 0x74, 0x61,
+	0x72, 0x67, 0x65, 0x74, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x22, 0x06, 0x0a, 0x04, 0x4e,
+	0x75, 0x6c, 0x6c, 0x32, 0xc1, 0x01, 0x0a, 0x07, 0x4e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x12,
+	0x27, 0x0a, 0x06, 0x4c, 0x69, 0x73, 0x74, 0x65, 0x6e, 0x12, 0x0a, 0x2e, 0x72, 0x75, 0x73, 0x6b,
+	0x2e, 0x4e, 0x75, 0x6c, 0x6c, 0x1a, 0x0d, 0x2e, 0x72, 0x75, 0x73, 0x6b, 0x2e, 0x4d, 0x65, 0x73,
+	0x73, 0x61, 0x67, 0x65, 0x22, 0x00, 0x30, 0x01, 0x12, 0x31, 0x0a, 0x09, 0x42, 0x72, 0x6f, 0x61,
+	0x64, 0x63, 0x61, 0x73, 0x74, 0x12, 0x16, 0x2e, 0x72, 0x75, 0x73, 0x6b, 0x2e, 0x42, 0x72, 0x6f,
+	0x61, 0x64, 0x63, 0x61, 0x73, 0x74, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x1a, 0x0a, 0x2e,
+	0x72, 0x75, 0x73, 0x6b, 0x2e, 0x4e, 0x75, 0x6c, 0x6c, 0x22, 0x00, 0x12, 0x31, 0x0a, 0x09, 0x50,
+	0x72, 0x6f, 0x70, 0x61, 0x67, 0x61, 0x74, 0x65, 0x12, 0x16, 0x2e, 0x72, 0x75, 0x73, 0x6b, 0x2e,
+	0x50, 0x72, 0x6f, 0x70, 0x61, 0x67, 0x61, 0x74, 0x65, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65,
+	0x1a, 0x0a, 0x2e, 0x72, 0x75, 0x73, 0x6b, 0x2e, 0x4e, 0x75, 0x6c, 0x6c, 0x22, 0x00, 0x12, 0x27,
+	0x0a, 0x04, 0x53, 0x65, 0x6e, 0x64, 0x12, 0x11, 0x2e, 0x72, 0x75, 0x73, 0x6b, 0x2e, 0x53, 0x65,
+	0x6e, 0x64, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x1a, 0x0a, 0x2e, 0x72, 0x75, 0x73, 0x6b,
+	0x2e, 0x4e, 0x75, 0x6c, 0x6c, 0x22, 0x00, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -332,24 +385,27 @@ func file_network_proto_rawDescGZIP() []byte {
 	return file_network_proto_rawDescData
 }
 
-var file_network_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
+var file_network_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_network_proto_goTypes = []interface{}{
 	(*MessageMetadata)(nil),  // 0: rusk.MessageMetadata
 	(*BroadcastMessage)(nil), // 1: rusk.BroadcastMessage
-	(*Message)(nil),          // 2: rusk.Message
-	(*SendMessage)(nil),      // 3: rusk.SendMessage
-	(*Null)(nil),             // 4: rusk.Null
+	(*PropagateMessage)(nil), // 2: rusk.PropagateMessage
+	(*Message)(nil),          // 3: rusk.Message
+	(*SendMessage)(nil),      // 4: rusk.SendMessage
+	(*Null)(nil),             // 5: rusk.Null
 }
 var file_network_proto_depIdxs = []int32{
 	0, // 0: rusk.Message.metadata:type_name -> rusk.MessageMetadata
-	4, // 1: rusk.Network.Listen:input_type -> rusk.Null
+	5, // 1: rusk.Network.Listen:input_type -> rusk.Null
 	1, // 2: rusk.Network.Broadcast:input_type -> rusk.BroadcastMessage
-	3, // 3: rusk.Network.Send:input_type -> rusk.SendMessage
-	2, // 4: rusk.Network.Listen:output_type -> rusk.Message
-	4, // 5: rusk.Network.Broadcast:output_type -> rusk.Null
-	4, // 6: rusk.Network.Send:output_type -> rusk.Null
-	4, // [4:7] is the sub-list for method output_type
-	1, // [1:4] is the sub-list for method input_type
+	2, // 3: rusk.Network.Propagate:input_type -> rusk.PropagateMessage
+	4, // 4: rusk.Network.Send:input_type -> rusk.SendMessage
+	3, // 5: rusk.Network.Listen:output_type -> rusk.Message
+	5, // 6: rusk.Network.Broadcast:output_type -> rusk.Null
+	5, // 7: rusk.Network.Propagate:output_type -> rusk.Null
+	5, // 8: rusk.Network.Send:output_type -> rusk.Null
+	5, // [5:9] is the sub-list for method output_type
+	1, // [1:5] is the sub-list for method input_type
 	1, // [1:1] is the sub-list for extension type_name
 	1, // [1:1] is the sub-list for extension extendee
 	0, // [0:1] is the sub-list for field type_name
@@ -386,7 +442,7 @@ func file_network_proto_init() {
 			}
 		}
 		file_network_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Message); i {
+			switch v := v.(*PropagateMessage); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -398,7 +454,7 @@ func file_network_proto_init() {
 			}
 		}
 		file_network_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*SendMessage); i {
+			switch v := v.(*Message); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -410,6 +466,18 @@ func file_network_proto_init() {
 			}
 		}
 		file_network_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*SendMessage); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_network_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*Null); i {
 			case 0:
 				return &v.state
@@ -428,7 +496,7 @@ func file_network_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_network_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   5,
+			NumMessages:   6,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
@@ -458,6 +526,8 @@ type NetworkClient interface {
 	Listen(ctx context.Context, in *Null, opts ...grpc.CallOption) (Network_ListenClient, error)
 	// Broadcast a message to the network
 	Broadcast(ctx context.Context, in *BroadcastMessage, opts ...grpc.CallOption) (*Null, error)
+	// Propagate a message to the network and notify current receivers
+	Propagate(ctx context.Context, in *PropagateMessage, opts ...grpc.CallOption) (*Null, error)
 	// Send a message to a specific target in the network
 	Send(ctx context.Context, in *SendMessage, opts ...grpc.CallOption) (*Null, error)
 }
@@ -511,6 +581,15 @@ func (c *networkClient) Broadcast(ctx context.Context, in *BroadcastMessage, opt
 	return out, nil
 }
 
+func (c *networkClient) Propagate(ctx context.Context, in *PropagateMessage, opts ...grpc.CallOption) (*Null, error) {
+	out := new(Null)
+	err := c.cc.Invoke(ctx, "/rusk.Network/Propagate", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *networkClient) Send(ctx context.Context, in *SendMessage, opts ...grpc.CallOption) (*Null, error) {
 	out := new(Null)
 	err := c.cc.Invoke(ctx, "/rusk.Network/Send", in, out, opts...)
@@ -526,6 +605,8 @@ type NetworkServer interface {
 	Listen(*Null, Network_ListenServer) error
 	// Broadcast a message to the network
 	Broadcast(context.Context, *BroadcastMessage) (*Null, error)
+	// Propagate a message to the network and notify current receivers
+	Propagate(context.Context, *PropagateMessage) (*Null, error)
 	// Send a message to a specific target in the network
 	Send(context.Context, *SendMessage) (*Null, error)
 }
@@ -539,6 +620,9 @@ func (*UnimplementedNetworkServer) Listen(*Null, Network_ListenServer) error {
 }
 func (*UnimplementedNetworkServer) Broadcast(context.Context, *BroadcastMessage) (*Null, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Broadcast not implemented")
+}
+func (*UnimplementedNetworkServer) Propagate(context.Context, *PropagateMessage) (*Null, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Propagate not implemented")
 }
 func (*UnimplementedNetworkServer) Send(context.Context, *SendMessage) (*Null, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Send not implemented")
@@ -587,6 +671,24 @@ func _Network_Broadcast_Handler(srv interface{}, ctx context.Context, dec func(i
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Network_Propagate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PropagateMessage)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NetworkServer).Propagate(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/rusk.Network/Propagate",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NetworkServer).Propagate(ctx, req.(*PropagateMessage))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Network_Send_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(SendMessage)
 	if err := dec(in); err != nil {
@@ -612,6 +714,10 @@ var _Network_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Broadcast",
 			Handler:    _Network_Broadcast_Handler,
+		},
+		{
+			MethodName: "Propagate",
+			Handler:    _Network_Propagate_Handler,
 		},
 		{
 			MethodName: "Send",
