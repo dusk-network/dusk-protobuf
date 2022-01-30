@@ -7,10 +7,6 @@
 package rusk
 
 import (
-	context "context"
-	grpc "google.golang.org/grpc"
-	codes "google.golang.org/grpc/codes"
-	status "google.golang.org/grpc/status"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -346,19 +342,17 @@ func (x *Transaction) GetPayload() []byte {
 	return nil
 }
 
-type TransactionRequest struct {
+type ExecutedTransaction struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ContractAddress []byte `protobuf:"bytes,1,opt,name=contract_address,json=contractAddress,proto3" json:"contract_address,omitempty"`
-	OpCode          uint32 `protobuf:"varint,2,opt,name=op_code,json=opCode,proto3" json:"op_code,omitempty"`
-	Arguments       []byte `protobuf:"bytes,3,opt,name=arguments,proto3" json:"arguments,omitempty"`
-	Fee             *Fee   `protobuf:"bytes,4,opt,name=fee,proto3" json:"fee,omitempty"`
+	Tx     *Transaction `protobuf:"bytes,1,opt,name=tx,proto3" json:"tx,omitempty"`
+	TxHash []byte       `protobuf:"bytes,2,opt,name=tx_hash,json=txHash,proto3" json:"tx_hash,omitempty"`
 }
 
-func (x *TransactionRequest) Reset() {
-	*x = TransactionRequest{}
+func (x *ExecutedTransaction) Reset() {
+	*x = ExecutedTransaction{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_transaction_proto_msgTypes[4]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -366,13 +360,13 @@ func (x *TransactionRequest) Reset() {
 	}
 }
 
-func (x *TransactionRequest) String() string {
+func (x *ExecutedTransaction) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*TransactionRequest) ProtoMessage() {}
+func (*ExecutedTransaction) ProtoMessage() {}
 
-func (x *TransactionRequest) ProtoReflect() protoreflect.Message {
+func (x *ExecutedTransaction) ProtoReflect() protoreflect.Message {
 	mi := &file_transaction_proto_msgTypes[4]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -384,35 +378,21 @@ func (x *TransactionRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TransactionRequest.ProtoReflect.Descriptor instead.
-func (*TransactionRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use ExecutedTransaction.ProtoReflect.Descriptor instead.
+func (*ExecutedTransaction) Descriptor() ([]byte, []int) {
 	return file_transaction_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *TransactionRequest) GetContractAddress() []byte {
+func (x *ExecutedTransaction) GetTx() *Transaction {
 	if x != nil {
-		return x.ContractAddress
+		return x.Tx
 	}
 	return nil
 }
 
-func (x *TransactionRequest) GetOpCode() uint32 {
+func (x *ExecutedTransaction) GetTxHash() []byte {
 	if x != nil {
-		return x.OpCode
-	}
-	return 0
-}
-
-func (x *TransactionRequest) GetArguments() []byte {
-	if x != nil {
-		return x.Arguments
-	}
-	return nil
-}
-
-func (x *TransactionRequest) GetFee() *Fee {
-	if x != nil {
-		return x.Fee
+		return x.TxHash
 	}
 	return nil
 }
@@ -461,22 +441,12 @@ var file_transaction_proto_rawDesc = []byte{
 	0x73, 0x69, 0x6f, 0x6e, 0x12, 0x12, 0x0a, 0x04, 0x74, 0x79, 0x70, 0x65, 0x18, 0x02, 0x20, 0x01,
 	0x28, 0x0d, 0x52, 0x04, 0x74, 0x79, 0x70, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x70, 0x61, 0x79, 0x6c,
 	0x6f, 0x61, 0x64, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x07, 0x70, 0x61, 0x79, 0x6c, 0x6f,
-	0x61, 0x64, 0x22, 0x93, 0x01, 0x0a, 0x12, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x61, 0x63, 0x74, 0x69,
-	0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x29, 0x0a, 0x10, 0x63, 0x6f, 0x6e,
-	0x74, 0x72, 0x61, 0x63, 0x74, 0x5f, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x18, 0x01, 0x20,
-	0x01, 0x28, 0x0c, 0x52, 0x0f, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x41, 0x64, 0x64,
-	0x72, 0x65, 0x73, 0x73, 0x12, 0x17, 0x0a, 0x07, 0x6f, 0x70, 0x5f, 0x63, 0x6f, 0x64, 0x65, 0x18,
-	0x02, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x06, 0x6f, 0x70, 0x43, 0x6f, 0x64, 0x65, 0x12, 0x1c, 0x0a,
-	0x09, 0x61, 0x72, 0x67, 0x75, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0c,
-	0x52, 0x09, 0x61, 0x72, 0x67, 0x75, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x12, 0x1b, 0x0a, 0x03, 0x66,
-	0x65, 0x65, 0x18, 0x04, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x09, 0x2e, 0x72, 0x75, 0x73, 0x6b, 0x2e,
-	0x46, 0x65, 0x65, 0x52, 0x03, 0x66, 0x65, 0x65, 0x32, 0x55, 0x0a, 0x12, 0x54, 0x72, 0x61, 0x6e,
-	0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x3f,
-	0x0a, 0x0e, 0x4e, 0x65, 0x77, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e,
-	0x12, 0x18, 0x2e, 0x72, 0x75, 0x73, 0x6b, 0x2e, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x61, 0x63, 0x74,
-	0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x11, 0x2e, 0x72, 0x75, 0x73,
-	0x6b, 0x2e, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0x00, 0x62,
-	0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x61, 0x64, 0x22, 0x51, 0x0a, 0x13, 0x45, 0x78, 0x65, 0x63, 0x75, 0x74, 0x65, 0x64, 0x54, 0x72,
+	0x61, 0x6e, 0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x21, 0x0a, 0x02, 0x74, 0x78, 0x18,
+	0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x11, 0x2e, 0x72, 0x75, 0x73, 0x6b, 0x2e, 0x54, 0x72, 0x61,
+	0x6e, 0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x02, 0x74, 0x78, 0x12, 0x17, 0x0a, 0x07,
+	0x74, 0x78, 0x5f, 0x68, 0x61, 0x73, 0x68, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x06, 0x74,
+	0x78, 0x48, 0x61, 0x73, 0x68, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -494,23 +464,21 @@ func file_transaction_proto_rawDescGZIP() []byte {
 var file_transaction_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_transaction_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
 var file_transaction_proto_goTypes = []interface{}{
-	(Note_NoteType)(0),         // 0: rusk.Note.NoteType
-	(*Crossover)(nil),          // 1: rusk.Crossover
-	(*Fee)(nil),                // 2: rusk.Fee
-	(*Note)(nil),               // 3: rusk.Note
-	(*Transaction)(nil),        // 4: rusk.Transaction
-	(*TransactionRequest)(nil), // 5: rusk.TransactionRequest
-	(*StealthAddress)(nil),     // 6: rusk.StealthAddress
+	(Note_NoteType)(0),          // 0: rusk.Note.NoteType
+	(*Crossover)(nil),           // 1: rusk.Crossover
+	(*Fee)(nil),                 // 2: rusk.Fee
+	(*Note)(nil),                // 3: rusk.Note
+	(*Transaction)(nil),         // 4: rusk.Transaction
+	(*ExecutedTransaction)(nil), // 5: rusk.ExecutedTransaction
+	(*StealthAddress)(nil),      // 6: rusk.StealthAddress
 }
 var file_transaction_proto_depIdxs = []int32{
 	6, // 0: rusk.Fee.stealth_address:type_name -> rusk.StealthAddress
 	0, // 1: rusk.Note.note_type:type_name -> rusk.Note.NoteType
 	6, // 2: rusk.Note.stealth_address:type_name -> rusk.StealthAddress
-	2, // 3: rusk.TransactionRequest.fee:type_name -> rusk.Fee
-	5, // 4: rusk.TransactionService.NewTransaction:input_type -> rusk.TransactionRequest
-	4, // 5: rusk.TransactionService.NewTransaction:output_type -> rusk.Transaction
-	5, // [5:6] is the sub-list for method output_type
-	4, // [4:5] is the sub-list for method input_type
+	4, // 3: rusk.ExecutedTransaction.tx:type_name -> rusk.Transaction
+	4, // [4:4] is the sub-list for method output_type
+	4, // [4:4] is the sub-list for method input_type
 	4, // [4:4] is the sub-list for extension type_name
 	4, // [4:4] is the sub-list for extension extendee
 	0, // [0:4] is the sub-list for field type_name
@@ -572,7 +540,7 @@ func file_transaction_proto_init() {
 			}
 		}
 		file_transaction_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*TransactionRequest); i {
+			switch v := v.(*ExecutedTransaction); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -592,7 +560,7 @@ func file_transaction_proto_init() {
 			NumEnums:      1,
 			NumMessages:   5,
 			NumExtensions: 0,
-			NumServices:   1,
+			NumServices:   0,
 		},
 		GoTypes:           file_transaction_proto_goTypes,
 		DependencyIndexes: file_transaction_proto_depIdxs,
@@ -603,88 +571,4 @@ func file_transaction_proto_init() {
 	file_transaction_proto_rawDesc = nil
 	file_transaction_proto_goTypes = nil
 	file_transaction_proto_depIdxs = nil
-}
-
-// Reference imports to suppress errors if they are not otherwise used.
-var _ context.Context
-var _ grpc.ClientConnInterface
-
-// This is a compile-time assertion to ensure that this generated file
-// is compatible with the grpc package it is being compiled against.
-const _ = grpc.SupportPackageIsVersion6
-
-// TransactionServiceClient is the client API for TransactionService service.
-//
-// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
-type TransactionServiceClient interface {
-	// A generic method to create a transaction which requires
-	// no special fields (no crossover, outputs, or specific proofs).
-	NewTransaction(ctx context.Context, in *TransactionRequest, opts ...grpc.CallOption) (*Transaction, error)
-}
-
-type transactionServiceClient struct {
-	cc grpc.ClientConnInterface
-}
-
-func NewTransactionServiceClient(cc grpc.ClientConnInterface) TransactionServiceClient {
-	return &transactionServiceClient{cc}
-}
-
-func (c *transactionServiceClient) NewTransaction(ctx context.Context, in *TransactionRequest, opts ...grpc.CallOption) (*Transaction, error) {
-	out := new(Transaction)
-	err := c.cc.Invoke(ctx, "/rusk.TransactionService/NewTransaction", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-// TransactionServiceServer is the server API for TransactionService service.
-type TransactionServiceServer interface {
-	// A generic method to create a transaction which requires
-	// no special fields (no crossover, outputs, or specific proofs).
-	NewTransaction(context.Context, *TransactionRequest) (*Transaction, error)
-}
-
-// UnimplementedTransactionServiceServer can be embedded to have forward compatible implementations.
-type UnimplementedTransactionServiceServer struct {
-}
-
-func (*UnimplementedTransactionServiceServer) NewTransaction(context.Context, *TransactionRequest) (*Transaction, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method NewTransaction not implemented")
-}
-
-func RegisterTransactionServiceServer(s *grpc.Server, srv TransactionServiceServer) {
-	s.RegisterService(&_TransactionService_serviceDesc, srv)
-}
-
-func _TransactionService_NewTransaction_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(TransactionRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(TransactionServiceServer).NewTransaction(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/rusk.TransactionService/NewTransaction",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TransactionServiceServer).NewTransaction(ctx, req.(*TransactionRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-var _TransactionService_serviceDesc = grpc.ServiceDesc{
-	ServiceName: "rusk.TransactionService",
-	HandlerType: (*TransactionServiceServer)(nil),
-	Methods: []grpc.MethodDesc{
-		{
-			MethodName: "NewTransaction",
-			Handler:    _TransactionService_NewTransaction_Handler,
-		},
-	},
-	Streams:  []grpc.StreamDesc{},
-	Metadata: "transaction.proto",
 }
