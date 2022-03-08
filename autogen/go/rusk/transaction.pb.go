@@ -66,6 +66,58 @@ func (Note_NoteType) EnumDescriptor() ([]byte, []int) {
 	return file_transaction_proto_rawDescGZIP(), []int{2, 0}
 }
 
+type ExecutedTransaction_Error_Code int32
+
+const (
+	ExecutedTransaction_Error_UnknownContract ExecutedTransaction_Error_Code = 0
+	ExecutedTransaction_Error_ContractPanic   ExecutedTransaction_Error_Code = 1
+	ExecutedTransaction_Error_OutOfGas        ExecutedTransaction_Error_Code = 2
+	ExecutedTransaction_Error_Other           ExecutedTransaction_Error_Code = 3
+)
+
+// Enum value maps for ExecutedTransaction_Error_Code.
+var (
+	ExecutedTransaction_Error_Code_name = map[int32]string{
+		0: "UnknownContract",
+		1: "ContractPanic",
+		2: "OutOfGas",
+		3: "Other",
+	}
+	ExecutedTransaction_Error_Code_value = map[string]int32{
+		"UnknownContract": 0,
+		"ContractPanic":   1,
+		"OutOfGas":        2,
+		"Other":           3,
+	}
+)
+
+func (x ExecutedTransaction_Error_Code) Enum() *ExecutedTransaction_Error_Code {
+	p := new(ExecutedTransaction_Error_Code)
+	*p = x
+	return p
+}
+
+func (x ExecutedTransaction_Error_Code) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (ExecutedTransaction_Error_Code) Descriptor() protoreflect.EnumDescriptor {
+	return file_transaction_proto_enumTypes[1].Descriptor()
+}
+
+func (ExecutedTransaction_Error_Code) Type() protoreflect.EnumType {
+	return &file_transaction_proto_enumTypes[1]
+}
+
+func (x ExecutedTransaction_Error_Code) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use ExecutedTransaction_Error_Code.Descriptor instead.
+func (ExecutedTransaction_Error_Code) EnumDescriptor() ([]byte, []int) {
+	return file_transaction_proto_rawDescGZIP(), []int{4, 0, 0}
+}
+
 type Crossover struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -347,9 +399,10 @@ type ExecutedTransaction struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Tx       *Transaction `protobuf:"bytes,1,opt,name=tx,proto3" json:"tx,omitempty"`
-	TxHash   []byte       `protobuf:"bytes,2,opt,name=tx_hash,json=txHash,proto3" json:"tx_hash,omitempty"`
-	GasSpent uint64       `protobuf:"varint,3,opt,name=gas_spent,json=gasSpent,proto3" json:"gas_spent,omitempty"`
+	Tx       *Transaction               `protobuf:"bytes,1,opt,name=tx,proto3" json:"tx,omitempty"`
+	TxHash   []byte                     `protobuf:"bytes,2,opt,name=tx_hash,json=txHash,proto3" json:"tx_hash,omitempty"`
+	GasSpent uint64                     `protobuf:"varint,3,opt,name=gas_spent,json=gasSpent,proto3" json:"gas_spent,omitempty"`
+	Error    *ExecutedTransaction_Error `protobuf:"bytes,4,opt,name=error,proto3,oneof" json:"error,omitempty"`
 }
 
 func (x *ExecutedTransaction) Reset() {
@@ -405,6 +458,76 @@ func (x *ExecutedTransaction) GetGasSpent() uint64 {
 	return 0
 }
 
+func (x *ExecutedTransaction) GetError() *ExecutedTransaction_Error {
+	if x != nil {
+		return x.Error
+	}
+	return nil
+}
+
+type ExecutedTransaction_Error struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Code       ExecutedTransaction_Error_Code `protobuf:"varint,1,opt,name=code,proto3,enum=rusk.ExecutedTransaction_Error_Code" json:"code,omitempty"`
+	ContractId []byte                         `protobuf:"bytes,2,opt,name=contract_id,json=contractId,proto3" json:"contract_id,omitempty"`
+	Data       string                         `protobuf:"bytes,3,opt,name=data,proto3" json:"data,omitempty"`
+}
+
+func (x *ExecutedTransaction_Error) Reset() {
+	*x = ExecutedTransaction_Error{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_transaction_proto_msgTypes[5]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ExecutedTransaction_Error) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ExecutedTransaction_Error) ProtoMessage() {}
+
+func (x *ExecutedTransaction_Error) ProtoReflect() protoreflect.Message {
+	mi := &file_transaction_proto_msgTypes[5]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ExecutedTransaction_Error.ProtoReflect.Descriptor instead.
+func (*ExecutedTransaction_Error) Descriptor() ([]byte, []int) {
+	return file_transaction_proto_rawDescGZIP(), []int{4, 0}
+}
+
+func (x *ExecutedTransaction_Error) GetCode() ExecutedTransaction_Error_Code {
+	if x != nil {
+		return x.Code
+	}
+	return ExecutedTransaction_Error_UnknownContract
+}
+
+func (x *ExecutedTransaction_Error) GetContractId() []byte {
+	if x != nil {
+		return x.ContractId
+	}
+	return nil
+}
+
+func (x *ExecutedTransaction_Error) GetData() string {
+	if x != nil {
+		return x.Data
+	}
+	return ""
+}
+
 var File_transaction_proto protoreflect.FileDescriptor
 
 var file_transaction_proto_rawDesc = []byte{
@@ -449,14 +572,31 @@ var file_transaction_proto_rawDesc = []byte{
 	0x73, 0x69, 0x6f, 0x6e, 0x12, 0x12, 0x0a, 0x04, 0x74, 0x79, 0x70, 0x65, 0x18, 0x02, 0x20, 0x01,
 	0x28, 0x0d, 0x52, 0x04, 0x74, 0x79, 0x70, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x70, 0x61, 0x79, 0x6c,
 	0x6f, 0x61, 0x64, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x07, 0x70, 0x61, 0x79, 0x6c, 0x6f,
-	0x61, 0x64, 0x22, 0x6e, 0x0a, 0x13, 0x45, 0x78, 0x65, 0x63, 0x75, 0x74, 0x65, 0x64, 0x54, 0x72,
-	0x61, 0x6e, 0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x21, 0x0a, 0x02, 0x74, 0x78, 0x18,
-	0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x11, 0x2e, 0x72, 0x75, 0x73, 0x6b, 0x2e, 0x54, 0x72, 0x61,
-	0x6e, 0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x02, 0x74, 0x78, 0x12, 0x17, 0x0a, 0x07,
-	0x74, 0x78, 0x5f, 0x68, 0x61, 0x73, 0x68, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x06, 0x74,
-	0x78, 0x48, 0x61, 0x73, 0x68, 0x12, 0x1b, 0x0a, 0x09, 0x67, 0x61, 0x73, 0x5f, 0x73, 0x70, 0x65,
-	0x6e, 0x74, 0x18, 0x03, 0x20, 0x01, 0x28, 0x04, 0x52, 0x08, 0x67, 0x61, 0x73, 0x53, 0x70, 0x65,
-	0x6e, 0x74, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x61, 0x64, 0x22, 0xf6, 0x02, 0x0a, 0x13, 0x45, 0x78, 0x65, 0x63, 0x75, 0x74, 0x65, 0x64, 0x54,
+	0x72, 0x61, 0x6e, 0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x21, 0x0a, 0x02, 0x74, 0x78,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x11, 0x2e, 0x72, 0x75, 0x73, 0x6b, 0x2e, 0x54, 0x72,
+	0x61, 0x6e, 0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x02, 0x74, 0x78, 0x12, 0x17, 0x0a,
+	0x07, 0x74, 0x78, 0x5f, 0x68, 0x61, 0x73, 0x68, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x06,
+	0x74, 0x78, 0x48, 0x61, 0x73, 0x68, 0x12, 0x1b, 0x0a, 0x09, 0x67, 0x61, 0x73, 0x5f, 0x73, 0x70,
+	0x65, 0x6e, 0x74, 0x18, 0x03, 0x20, 0x01, 0x28, 0x04, 0x52, 0x08, 0x67, 0x61, 0x73, 0x53, 0x70,
+	0x65, 0x6e, 0x74, 0x12, 0x3a, 0x0a, 0x05, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x18, 0x04, 0x20, 0x01,
+	0x28, 0x0b, 0x32, 0x1f, 0x2e, 0x72, 0x75, 0x73, 0x6b, 0x2e, 0x45, 0x78, 0x65, 0x63, 0x75, 0x74,
+	0x65, 0x64, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x45, 0x72,
+	0x72, 0x6f, 0x72, 0x48, 0x00, 0x52, 0x05, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x88, 0x01, 0x01, 0x1a,
+	0xbf, 0x01, 0x0a, 0x05, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x12, 0x38, 0x0a, 0x04, 0x63, 0x6f, 0x64,
+	0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x24, 0x2e, 0x72, 0x75, 0x73, 0x6b, 0x2e, 0x45,
+	0x78, 0x65, 0x63, 0x75, 0x74, 0x65, 0x64, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x61, 0x63, 0x74, 0x69,
+	0x6f, 0x6e, 0x2e, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x2e, 0x43, 0x6f, 0x64, 0x65, 0x52, 0x04, 0x63,
+	0x6f, 0x64, 0x65, 0x12, 0x1f, 0x0a, 0x0b, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x5f,
+	0x69, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x0a, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x61,
+	0x63, 0x74, 0x49, 0x64, 0x12, 0x12, 0x0a, 0x04, 0x64, 0x61, 0x74, 0x61, 0x18, 0x03, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x04, 0x64, 0x61, 0x74, 0x61, 0x22, 0x47, 0x0a, 0x04, 0x43, 0x6f, 0x64, 0x65,
+	0x12, 0x13, 0x0a, 0x0f, 0x55, 0x6e, 0x6b, 0x6e, 0x6f, 0x77, 0x6e, 0x43, 0x6f, 0x6e, 0x74, 0x72,
+	0x61, 0x63, 0x74, 0x10, 0x00, 0x12, 0x11, 0x0a, 0x0d, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63,
+	0x74, 0x50, 0x61, 0x6e, 0x69, 0x63, 0x10, 0x01, 0x12, 0x0c, 0x0a, 0x08, 0x4f, 0x75, 0x74, 0x4f,
+	0x66, 0x47, 0x61, 0x73, 0x10, 0x02, 0x12, 0x09, 0x0a, 0x05, 0x4f, 0x74, 0x68, 0x65, 0x72, 0x10,
+	0x03, 0x42, 0x08, 0x0a, 0x06, 0x5f, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x62, 0x06, 0x70, 0x72, 0x6f,
+	0x74, 0x6f, 0x33,
 }
 
 var (
@@ -471,27 +611,31 @@ func file_transaction_proto_rawDescGZIP() []byte {
 	return file_transaction_proto_rawDescData
 }
 
-var file_transaction_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_transaction_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
+var file_transaction_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
+var file_transaction_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_transaction_proto_goTypes = []interface{}{
-	(Note_NoteType)(0),          // 0: rusk.Note.NoteType
-	(*Crossover)(nil),           // 1: rusk.Crossover
-	(*Fee)(nil),                 // 2: rusk.Fee
-	(*Note)(nil),                // 3: rusk.Note
-	(*Transaction)(nil),         // 4: rusk.Transaction
-	(*ExecutedTransaction)(nil), // 5: rusk.ExecutedTransaction
-	(*StealthAddress)(nil),      // 6: rusk.StealthAddress
+	(Note_NoteType)(0),                  // 0: rusk.Note.NoteType
+	(ExecutedTransaction_Error_Code)(0), // 1: rusk.ExecutedTransaction.Error.Code
+	(*Crossover)(nil),                   // 2: rusk.Crossover
+	(*Fee)(nil),                         // 3: rusk.Fee
+	(*Note)(nil),                        // 4: rusk.Note
+	(*Transaction)(nil),                 // 5: rusk.Transaction
+	(*ExecutedTransaction)(nil),         // 6: rusk.ExecutedTransaction
+	(*ExecutedTransaction_Error)(nil),   // 7: rusk.ExecutedTransaction.Error
+	(*StealthAddress)(nil),              // 8: rusk.StealthAddress
 }
 var file_transaction_proto_depIdxs = []int32{
-	6, // 0: rusk.Fee.stealth_address:type_name -> rusk.StealthAddress
+	8, // 0: rusk.Fee.stealth_address:type_name -> rusk.StealthAddress
 	0, // 1: rusk.Note.note_type:type_name -> rusk.Note.NoteType
-	6, // 2: rusk.Note.stealth_address:type_name -> rusk.StealthAddress
-	4, // 3: rusk.ExecutedTransaction.tx:type_name -> rusk.Transaction
-	4, // [4:4] is the sub-list for method output_type
-	4, // [4:4] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	8, // 2: rusk.Note.stealth_address:type_name -> rusk.StealthAddress
+	5, // 3: rusk.ExecutedTransaction.tx:type_name -> rusk.Transaction
+	7, // 4: rusk.ExecutedTransaction.error:type_name -> rusk.ExecutedTransaction.Error
+	1, // 5: rusk.ExecutedTransaction.Error.code:type_name -> rusk.ExecutedTransaction.Error.Code
+	6, // [6:6] is the sub-list for method output_type
+	6, // [6:6] is the sub-list for method input_type
+	6, // [6:6] is the sub-list for extension type_name
+	6, // [6:6] is the sub-list for extension extendee
+	0, // [0:6] is the sub-list for field type_name
 }
 
 func init() { file_transaction_proto_init() }
@@ -561,14 +705,27 @@ func file_transaction_proto_init() {
 				return nil
 			}
 		}
+		file_transaction_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ExecutedTransaction_Error); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
+	file_transaction_proto_msgTypes[4].OneofWrappers = []interface{}{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_transaction_proto_rawDesc,
-			NumEnums:      1,
-			NumMessages:   5,
+			NumEnums:      2,
+			NumMessages:   6,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
