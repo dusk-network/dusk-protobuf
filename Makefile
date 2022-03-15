@@ -1,67 +1,136 @@
+# dusk-protobuf
 
-PROJECT_NAME := "dusk-protobuf"
-PKG := "github.com/dusk-network/$(PROJECT_NAME)"
-PKG_LIST := $(shell go list ${PKG}/... | grep -v /vendor/)
-#TEST_FLAGS := "-count=1"
-GO_FILES := $(shell find . -name '*.go' | grep -v /vendor/ | grep -v _test.go)
-RUSK_PKG := github.com/dusk-network/dusk-protobuf/autogen/go/rusk
+.PHONY: all fetch-rusk go go-monitor go-node go-rusk nodejs nodejs-rusk req-protoc req-protoc-go req-protoc-grpcweb reset clean help
 
-.PHONY: all go clean gen regen-dir help
+all: go nodejs clean ## Generate Go and Nodejs bindings
 
-go: gen-monitor gen-rusk gen-node ## Generate the RPC golang structs
-	@echo "generated packages"
+## Rusk source
 
-PROTOC := $(shell which protoc)
+fetch-rusk:
+	@echo "cloning latest Rusk..."
+	@git clone -q git@github.com:dusk-network/rusk.git
 
-ifeq ($(shell uname), Linux)
-protoc=protoc-3.19.1-linux-x86_64.zip
-else
-protoc = protoc-3.19.1-osx-x86_64.zip
-endif
 
-download-protoc:
-	@echo $(OS)
-	curl -OL https://github.com/protocolbuffers/protobuf/releases/download/v3.19.1/$(protoc)
-	mkdir -p ./tmp/protoc
-	unzip -o $(protoc) -d ./tmp/protoc bin/protoc
-	unzip -o $(protoc) -d ./tmp/protoc 'include/*'
-	rm -f $(protoc)
-	
-	go install github.com/golang/protobuf/protoc-gen-go@latest
-	
-all: regen-dir mock go ## Recreates the autogen folder and calls regen
+## Go code generation
 
-mock: mock-monitor mock-rusk mock-node ## Generate the mockups
+# Package used for the generated go protobuf files
+RUSK_GO_PKG := github.com/dusk-network/dusk-protobuf/autogen/go/rusk
+
+go: go-monitor go-node go-rusk ## Generate the gRPC Go bindings
+	@echo "Go gRPC code generated successfuly"
+
+go-monitor: req-protoc req-protoc-go
+	@./tmp/protoc/bin/protoc -I./monitor/ ./monitor/*.proto --go_out=plugins=grpc,paths=source_relative:./autogen/go/monitor
+
+go-node: req-protoc req-protoc-go
+	@./tmp/protoc/bin/protoc -I./node/ ./node/*.proto --go_out=plugins=grpc,paths=source_relative:./autogen/go/node
+
+go-rusk: req-protoc req-protoc-go fetch-rusk
+	@echo "generating Go protobuf files"
+	@./tmp/protoc/bin/protoc \
+	-I./rusk/schema/ ./rusk/schema/*.proto \
+	--go_out=plugins=grpc,paths=source_relative:./autogen/go/rusk \
+	--go_opt=Mstate.proto=$(RUSK_GO_PKG) \
+	--go_opt=Mecho.proto=$(RUSK_GO_PKG) \
+	--go_opt=Mnetwork.proto=$(RUSK_GO_PKG) \
+	--go_opt=Mprover.proto=$(RUSK_GO_PKG) \
+	--go_opt=Mprovisioner.proto=$(RUSK_GO_PKG) \
+	--go_opt=Mkeys.proto=$(RUSK_GO_PKG) \
+	--go_opt=Mtransaction.proto=$(RUSK_GO_PKG) \
+	--go_opt=Mstake.proto=$(RUSK_GO_PKG) \
+	--go_opt=Mreward.proto=$(RUSK_GO_PKG) \
+	--go_opt=Mtransfer.proto=$(RUSK_GO_PKG)
+	@rm -rf ./rusk
+
+
+## NodeJS code generation
+
+nodejs: nodejs-rusk ## Generate the gRPC-Web nodejs bindings
+	@echo "Nodejs gRPC code generated successfuly"
+
+nodejs-rusk: req-protoc req-protoc-grpcweb fetch-rusk
+	@echo "generating Nodejs protobuf files..."
+	@./tmp/protoc/bin/protoc -I=./rusk/schema transfer.proto --js_out=import_style=commonjs:autogen/nodejs
+	@./tmp/protoc/bin/protoc -I=./rusk/schema transfer.proto --grpc-web_out=import_style=commonjs,mode=grpcwebtext:autogen/nodejs
+	@./tmp/protoc/bin/protoc -I=./rusk/schema echo.proto  \--js_out=import_style=commonjs:autogen/nodejs
+	@./tmp/protoc/bin/protoc -I=./rusk/schema echo.proto \--grpc-web_out=import_style=commonjs,mode=grpcwebtext:autogen/nodejs
+	@./tmp/protoc/bin/protoc -I=./rusk/schema keys.proto  \--js_out=import_style=commonjs:autogen/nodejs
+	@./tmp/protoc/bin/protoc -I=./rusk/schema keys.proto \--grpc-web_out=import_style=commonjs,mode=grpcwebtext:autogen/nodejs
+	@./tmp/protoc/bin/protoc -I=./rusk/schema network.proto  \--js_out=import_style=commonjs:autogen/nodejs
+	@./tmp/protoc/bin/protoc -I=./rusk/schema network.proto \--grpc-web_out=import_style=commonjs,mode=grpcwebtext:autogen/nodejs
+	@./tmp/protoc/bin/protoc -I=./rusk/schema prover.proto  \--js_out=import_style=commonjs:autogen/nodejs
+	@./tmp/protoc/bin/protoc -I=./rusk/schema prover.proto \--grpc-web_out=import_style=commonjs,mode=grpcwebtext:autogen/nodejs
+	@./tmp/protoc/bin/protoc -I=./rusk/schema reward.proto  \--js_out=import_style=commonjs:autogen/nodejs
+	@./tmp/protoc/bin/protoc -I=./rusk/schema reward.proto \--grpc-web_out=import_style=commonjs,mode=grpcwebtext:autogen/nodejs
+	@./tmp/protoc/bin/protoc -I=./rusk/schema stake.proto  \--js_out=import_style=commonjs:autogen/nodejs
+	@./tmp/protoc/bin/protoc -I=./rusk/schema stake.proto \--grpc-web_out=import_style=commonjs,mode=grpcwebtext:autogen/nodejs
+	@./tmp/protoc/bin/protoc -I=./rusk/schema state.proto  \--js_out=import_style=commonjs:autogen/nodejs
+	@./tmp/protoc/bin/protoc -I=./rusk/schema state.proto \--grpc-web_out=import_style=commonjs,mode=grpcwebtext:autogen/nodejs
+	@./tmp/protoc/bin/protoc -I=./rusk/schema transaction.proto  \--js_out=import_style=commonjs:autogen/nodejs
+	@./tmp/protoc/bin/protoc -I=./rusk/schema transaction.proto \--grpc-web_out=import_style=commonjs,mode=grpcwebtext:autogen/nodejs
+	@./tmp/protoc/bin/protoc -I=./rusk/schema transfer.proto  \--js_out=import_style=commonjs:autogen/nodejs
+	@./tmp/protoc/bin/protoc -I=./rusk/schema transfer.proto \--grpc-web_out=import_style=commonjs,mode=grpcwebtext:autogen/nodejs
+	@./tmp/protoc/bin/protoc -I=./rusk/schema provisioner.proto  \--js_out=import_style=commonjs:autogen/nodejs
+	@./tmp/protoc/bin/protoc -I=./rusk/schema provisioner.proto \--grpc-web_out=import_style=commonjs,mode=grpcwebtext:autogen/nodejs
+	@rm -rf ./rusk
+
+
+## Mocks
+
+mock: mock-monitor mock-node ## Generate mocks (unmaintained)
 	@echo "generated mocks"
-clean: ## Remove previously autogenerated files
-	@echo "removing $(PWD)/autogen folder"
-	@rm -rf ./autogen
-regen-dir: clean
-	@echo "creating $(PWD)/autogen/go/{monitor,rusk,node} folders"
-	@mkdir -p ./autogen/go/{monitor,rusk,node}
-help: ## Display this help screen
-	@grep -h -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 mock-monitor:
 	@protoc -I./monitor --gogo_out=plugins=grpc,paths=source_relative:./autogen/go/monitor --gogrpcmock_out=paths=source_relative:./autogen/go/monitor ./monitor/*.proto
 mock-node:
 	@protoc -I./node --gogo_out=plugins=grpc,paths=source_relative:./autogen/go/node --gogrpcmock_out=paths=source_relative:./autogen/go/node ./node/*.proto
-gen-monitor: 
-	@protoc -I./monitor/ ./monitor/*.proto --go_out=plugins=grpc,paths=source_relative:./autogen/go/monitor
-gen-node:
-	@protoc -I./node/ ./node/*.proto --go_out=plugins=grpc,paths=source_relative:./autogen/go/node
-gen-rusk: download-protoc
-	git clone git@github.com:dusk-network/rusk.git
-	./tmp/protoc/bin/protoc \
-	-I./rusk/schema/ ./rusk/schema/*.proto \
-	--go_out=plugins=grpc,paths=source_relative:./autogen/go/rusk \
-	--go_opt=Mstate.proto=$(RUSK_PKG) \
-	--go_opt=Mecho.proto=$(RUSK_PKG) \
-	--go_opt=Mnetwork.proto=$(RUSK_PKG) \
-	--go_opt=Mprover.proto=$(RUSK_PKG) \
-	--go_opt=Mprovisioner.proto=$(RUSK_PKG) \
-	--go_opt=Mkeys.proto=$(RUSK_PKG) \
-	--go_opt=Mtransaction.proto=$(RUSK_PKG) \
-	--go_opt=Mstake.proto=$(RUSK_PKG) \
-	--go_opt=Mreward.proto=$(RUSK_PKG) \
-	--go_opt=Mtransfer.proto=$(RUSK_PKG)
-	rm -rf ./rusk
+
+
+## Cleanup
+
+reset: ## Remove previously autogenerated files
+	@echo "removing ./autogen folder"
+	@rm -rf ./autogen
+	@echo "creating ./autogen/go/{monitor,rusk,node} folders"
+	@mkdir -p ./autogen/go/{monitor,rusk,node}
+	@echo "creating ./autogen/nodejs folder"
+	@mkdir -p ./autogen/nodejs
+
+clean: ## Remove temporary files
+	@rm -f /usr/local/bin/protoc-gen-grpc-web
+	@rm -rf ./tmp
+	@rm -rf ./rusk
+	@echo "temporary files removed"
+
+## Protoc (Protobuf compiler) and gRPC-Web plugins
+
+ifeq ($(shell uname), Linux)
+protoc=protoc-3.19.1-linux-x86_64.zip
+protoc_grpc=protoc-gen-grpc-web-1.3.1-linux-x86_64
+else
+protoc = protoc-3.19.1-osx-x86_64.zip
+protoc_grpc=protoc-gen-grpc-web-1.3.1-darwin-x86_64
+endif
+
+req-protoc:
+	@echo "downloading protoc..."
+	@curl -sOL https://github.com/protocolbuffers/protobuf/releases/download/v3.19.1/$(protoc)
+	@mkdir -p ./tmp/protoc
+	@unzip -qo $(protoc) -d ./tmp/protoc bin/protoc
+	@unzip -qo $(protoc) -d ./tmp/protoc 'include/*'
+	@rm -f $(protoc)
+
+req-protoc-go:
+	@echo "installing protoc-gen-go..."
+	@go install github.com/golang/protobuf/protoc-gen-go@latest
+
+req-protoc-grpcweb:
+	@echo "installing protoc grpc-web plugin..."
+	@curl -sOL https://github.com/grpc/grpc-web/releases/download/1.3.1/$(protoc_grpc)
+	@mv $(protoc_grpc) /usr/local/bin/protoc-gen-grpc-web
+	@chmod +x /usr/local/bin/protoc-gen-grpc-web
+
+
+## Help
+
+help: ## Display this help screen
+	@grep -h -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'

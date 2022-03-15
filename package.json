@@ -1,0 +1,27 @@
+{
+    "name": "@dusk-network/dusk-protobuf",
+    "version": "0.0.1",
+    "repository": "git://github.com/dusk-network/dusk-protobuf",
+    "files": [
+        "echo_pb.js",
+        "keys_grpc_web_pb.js",
+        "keys_pb.js",
+        "network_grpc_web_pb.js",
+        "network_pb.js",
+        "prover_grpc_web_pb.js",
+        "prover_pb.js",
+        "provisioner_pb.js",
+        "reward_grpc_web_pb.js",
+        "reward_pb.js",
+        "stake_grpc_web_pb.js",
+        "stake_pb.js",
+        "state_grpc_web_pb.js",
+        "state_pb.js",
+        "transaction_pb.js",
+        "transfer_grpc_web_pb.js",
+        "transfer_pb.js"
+    ],
+    "publishConfig": {
+        "@dusk-network:registry": "https://npm.pkg.github.com"
+    }
+}
