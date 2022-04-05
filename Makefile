@@ -52,7 +52,7 @@ gen-node:
 gen-rusk: download-protoc
 	git clone git@github.com:dusk-network/rusk.git
 	./tmp/protoc/bin/protoc \
-	-I./rusk/schema/ ./rusk/schema/*.proto \
+	-I./rusk/rusk-schema/protos/ ./rusk/rusk-schema/protos/*.proto \
 	--go_out=plugins=grpc,paths=source_relative:./autogen/go/rusk \
 	--go_opt=Mstate.proto=$(RUSK_PKG) \
 	--go_opt=Mecho.proto=$(RUSK_PKG) \
